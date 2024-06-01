@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <link rel="stylesheet" type="text/css" href="/styles/filtroBusqueda.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="left-section">
+            <div class="image-squareUser"></div>
+            <div class="login-text">
+                <p><a href="#" class="loginBtn-text">nombre de usuario</a></p>
+            </div>
+        </div>
+        <div class="right-section">
+            <h2><a href="#" class="volverBtn-text">VOLVER</a></h2>
+            <div class="image-square"></div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="form-wrapper buscar">
+            <form action="">
+                <h2>HABITACIONES</h2>
+                <div class="input-group">
+                    <input type="date" required>
+                    <label for="">Fecha Inicial:</label>
+                </div>
+                <div class="input-group">
+                    <input type="date" required>
+                    <label for="">Fecha Final:</label>
+                </div>
+                <div class="input-group">
+                    <label for="personas">PERSONAS:</label>
+                    <div class="personas-container">
+                        <button type="button" class="personas-btn" id="decrement">-</button>
+                        <span id="personas-count">1</span>
+                        <button type="button" class="personas-btn" id="increment">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select">
+                            <div class="custom-select__trigger">
+                                <span>Seleccione tipo de habitación</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                <span class="custom-option selected" data-value="estandar-sencilla">ESTÁNDAR SENCILLA</span>
+                                <span class="custom-option" data-value="estandar-doble">ESTÁNDAR DOBLE</span>
+                                <span class="custom-option" data-value="estandar-triple">ESTÁNDAR TRIPLE</span>
+                                <span class="custom-option" data-value="estandar-matrimonial">ESTÁNDAR MATRIMONIAL</span>
+                            </div>
+                        </div>
+                        <select class="custom-select" name="room-type" id="room-type">
+                            <option value="estandar-sencilla" selected>ESTÁNDAR SENCILLA</option>
+                            <option value="estandar-doble">ESTÁNDAR DOBLE</option>
+                            <option value="estandar-triple">ESTÁNDAR TRIPLE</option>
+                            <option value="estandar-matrimonial">ESTÁNDAR MATRIMONIAL</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">BUSCAR</button>
+            </form>
+        </div>
+    </div>
+    <script src="/js/filtroBusqueda.js"></script>
+</body>
+</html>
+
+
+

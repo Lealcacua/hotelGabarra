@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    border-radius: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    box-shadow: 0 0 20px rgb(234, 238, 5);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.left-section, .right-section {
+    display: flex;
+    align-items: center;
+}
+
+.image-squareUser, .image-square {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    background-color: #ddd;
+}
+
+.image-squareUser {
+    background-image: url('https://st2.depositphotos.com/50337402/47114/v/450/depositphotos_471143640-stock-illustration-approve-gold-plated-metalic-icon.jpg');
+}
+
+.image-square {
+    background-image: url('https://st5.depositphotos.com/17912498/70559/v/600/depositphotos_705595492-stock-illustration-black-solid-icon-open.jpg');
+}
+
+.loginBtn-text, .volverBtn-text {
+    color: rgb(234, 238, 5);
+    margin-left: 10px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.loginBtn-text:hover, .volverBtn-text:hover {
+    text-decoration: underline;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-wrapper {
+    width: 400px;
+    height: auto;
+    background: #000;
+    box-shadow: 0 0 50px rgb(234, 238, 5);
+    border-radius: 20px;
+    padding: 40px;
+    overflow: hidden;
+}
+
+h2 {
+    font-size: 30px;
+    color: rgb(246, 247, 223);
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+    margin: 10px 0;
+    border-bottom: 2px solid rgb(247, 223, 239);
+}
+
+.input-group label {
+    position: absolute;
+    top: 30%;
+    left: 5px;
+    transform: translateY(-100%);
+    font-size: 16px;
+    color: rgb(246, 247, 223);
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-group input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    color: rgb(246, 247, 223);
+    padding: 0 5px;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: left;
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    background: rgb(234, 238, 5);
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+}
+
+input[type="date"] {
+    color: white; 
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+}
+
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    user-select: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.custom-select__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #444546;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.custom-select__trigger span {
+    color: #ecf0f1;
+}
+
+.custom-select__trigger .arrow {
+    border: solid #ecf0f1;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #444546;
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.custom-select.open .custom-options {
+    display: flex;
+}
+
+.custom-option {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: #ecf0f1;
+}
+
+.custom-option:hover {
+    background: rgb(234, 238, 5);
+}
+
+.custom-option.selected {
+    background: rgb(234, 238, 5);
+}
+
+select.custom-select {
+    display: none;
+}
+
+.personas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    background: #000;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.personas-btn {
+    background: rgb(234, 238, 5);
+    border: none;
+    color: #000;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+#personas-count {
+    color: #ecf0f1;
+    font-size: 20px;
+    width: 30px;
+    text-align: center;
+}
+

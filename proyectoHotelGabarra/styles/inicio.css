@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    /*background: rgb(146, 39, 39);*/
+    position: relative;
+    border-radius: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #000;
+    position: relative;
+    box-shadow: 0 0 20px rgb(234, 238, 5);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.login-text {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.image-square {
+    width: 50px;
+    height: 50px;
+    background-image: url('https://img.freepik.com/vector-premium/icono-perfil-usuario-estilo-plano-ilustracion-vector-avatar-miembro-sobre-fondo-aislado-concepto-negocio-signo-permiso-humano_157943-15752.jpg?w=740');
+    background-size: cover;
+    background-position: center;
+    background-color: #ddd;
+}
+
+.main {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    background: #000;
+    width: 300px;
+    height: 100vh;
+    position: relative;
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.soporte {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    color: rgb(234, 238, 5);
+    align-items: center;
+    font-weight: 500;
+    margin-top: 400px; 
+}
+
+.login-text {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    transition: 1s ease-in-out;
+}
+
+.login-text p {
+    color: rgb(246, 247, 223);
+}
+
+.login-text p a {
+    color: rgb(234, 238, 5);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-text p a:hover {
+    text-decoration: underline;
+}
+
+.reservas-button {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    background: rgb(234, 238, 5);
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.position {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.slider {
+    background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+    background-size: cover;
+    height: 60%;  /* Ajuste de altura según el diseño */
+    width: 80%;  /* Ajuste de ancho según el diseño */
+    border-radius: 10px;
+    margin: 20px auto;  /* Centrado automático y margen */
+    animation: animate 10s infinite;
+}
+
+@keyframes animate {
+    20% {
+        background-image: url('https://st2.depositphotos.com/50337402/47118/v/600/depositphotos_471186670-stock-illustration-apple-golden-line-premium-logo.jpg');
+        background-size: cover;
+    }
+    40% {
+        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470978270-stock-illustration-boston-metro-logo-gold-plated.jpg');
+        background-size: cover;
+    }
+    60% {
+        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470971660-stock-illustration-brasilia-metro-logo-gold-plated.jpg');
+        background-size: cover;
+    }
+    80% {
+        background-image: url('https://st2.depositphotos.com/50337402/47120/v/600/depositphotos_471207806-stock-illustration-athens-metro-logo-golden-line.jpg');
+        background-size: cover;
+    }
+    100% {
+        background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+        background-size: cover;
+    }
+}
+
+
