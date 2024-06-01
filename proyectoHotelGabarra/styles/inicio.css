@@ -1,34 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700;800;900&display=swap');
 
 * {
-    margin: 0;
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    /*background: rgb(146, 39, 39);*/
-    position: relative;
-    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
-.header {
+h1, h2 {
+    font-family: sans-serif;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.flex {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background: #000;
-    position: relative;
-    box-shadow: 0 0 20px rgb(234, 238, 5);
-    padding: 20px;
-    overflow: hidden;
 }
 
-.login-text {
-    margin-right: 20px;
-    font-size: 16px;
+.flex_space {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    max-width: 85%;
+    margin: auto;
+}
+
+header {
+    padding: 20px 20px;
+    background: #000;
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    display: flex;
+    align-items: center;
+}
+
+header ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+header ul li {
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 0 10px;
+}
+
+header ul li a {
+    color: white;
+    margin: 0 10px;
+    transition: 0.5s;
+}
+
+header ul li a:hover {
+    color: #FFD700;
+}
+
+header i {
+    margin: 0 20px;
+}
+
+header button {
+    padding: 13px 40px;
+}
+
+header .navlinks span {
+    display: none;
 }
 
 .image-square {
@@ -38,69 +88,7 @@ body {
     background-size: cover;
     background-position: center;
     background-color: #ddd;
-}
-
-.main {
-    display: flex;
-    flex-direction: column; 
-    justify-content: flex-start;
-    align-items: center;
-    background: #000;
-    width: 300px;
-    height: 100vh;
-    position: relative;
-    box-shadow: 0 0 10px rgb(234, 238, 5);
-    padding: 20px;
-    overflow: hidden;
-}
-
-.soporte {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    height: 80px;
-    color: rgb(234, 238, 5);
-    align-items: center;
-    font-weight: 500;
-    margin-top: 400px; 
-}
-
-.login-text {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    transition: 1s ease-in-out;
-}
-
-.login-text p {
-    color: rgb(246, 247, 223);
-}
-
-.login-text p a {
-    color: rgb(234, 238, 5);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.login-text p a:hover {
-    text-decoration: underline;
-}
-
-.reservas-button {
-    position: relative;
-    width: 100%;
-    height: 80px;
-    background: rgb(234, 238, 5);
-    box-shadow: 0 0 10px rgb(234, 238, 5);
-    font-size: 16px;
-    color: #000;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 20px;
-    border: none;
-    outline: none;
+    margin-left: 10px;
 }
 
 .slider-container {
@@ -120,10 +108,10 @@ body {
 .slider {
     background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
     background-size: cover;
-    height: 60%;  /* Ajuste de altura según el diseño */
-    width: 80%;  /* Ajuste de ancho según el diseño */
+    height: 60%;  
+    width: 80%;  
     border-radius: 10px;
-    margin: 20px auto;  /* Centrado automático y margen */
+    margin: 20px auto; 
     animation: animate 10s infinite;
 }
 
@@ -149,5 +137,7 @@ body {
         background-size: cover;
     }
 }
+
+
 
 

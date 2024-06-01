@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2 {
+    font-family: sans-serif;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex_space {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    max-width: 85%;
+    margin: auto;
+}
+
+header {
+    padding: 20px 20px;
+    background: #000;
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    display: flex;
+    align-items: center;
+}
+
+header ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+header ul li {
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 0 10px;
+}
+
+header ul li a {
+    color: white;
+    margin: 0 10px;
+    transition: 0.5s;
+}
+
+header ul li a:hover {
+    color: #FFD700;
+}
+
+header i {
+    margin: 0 20px;
+}
+
+header button {
+    padding: 13px 40px;
+}
+
+header .navlinks span {
+    display: none;
+}
+
+.image-square {
+    width: 50px;
+    height: 50px;
+    background-image: url('https://st2.depositphotos.com/50337402/47114/v/450/depositphotos_471143640-stock-illustration-approve-gold-plated-metalic-icon.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: #ddd;
+    margin-left: 10px;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.position {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.slider {
+    background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+    background-size: cover;
+    height: 60%;  
+    width: 80%;  
+    border-radius: 10px;
+    margin: 20px auto; 
+    animation: animate 10s infinite;
+}
+
+@keyframes animate {
+    20% {
+        background-image: url('https://st2.depositphotos.com/50337402/47118/v/600/depositphotos_471186670-stock-illustration-apple-golden-line-premium-logo.jpg');
+        background-size: cover;
+    }
+    40% {
+        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470978270-stock-illustration-boston-metro-logo-gold-plated.jpg');
+        background-size: cover;
+    }
+    60% {
+        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470971660-stock-illustration-brasilia-metro-logo-gold-plated.jpg');
+        background-size: cover;
+    }
+    80% {
+        background-image: url('https://st2.depositphotos.com/50337402/47120/v/600/depositphotos_471207806-stock-illustration-athens-metro-logo-golden-line.jpg');
+        background-size: cover;
+    }
+    100% {
+        background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+        background-size: cover;
+    }
+}
