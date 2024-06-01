@@ -8,21 +8,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const customOptionsContainer = document.querySelector('.custom-options');
 
     function adjustFormHeight() {
-        var extraHeight = 1; 
-    
+        var extraHeight = 1;
+
         if (customSelect.classList.contains('open')) {
             var desiredHeight = formWrapper.scrollHeight + customOptionsContainer.scrollHeight + extraHeight;
             formWrapper.style.height = desiredHeight + 'px';
         } else {
-           
-            var desiredHeight = formWrapper.scrollHeight + extraHeight;
-            formWrapper.style.height = desiredHeight + 'px';
+            formWrapper.style.height = 'auto';
         }
     }
-    
-    customSelectWrapper.addEventListener('click', function () {
+
+    customSelectWrapper.addEventListener('click', function (e) {
         customSelect.classList.toggle('open');
         adjustFormHeight();
+        e.stopPropagation();  // Evita que el clic se propague y cause otros efectos secundarios
     });
 
     customOptions.forEach(option => {
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nativeSelect.value = this.getAttribute('data-value');
             customSelect.classList.remove('open');
             adjustFormHeight();
-            formWrapper.style.height = 'auto'; 
+            formWrapper.style.height = 'auto';
         });
     });
 
@@ -64,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 
 
 

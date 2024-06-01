@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel la Gabarra</title>
     <link rel="stylesheet" href="../styles/sesionIniciada.css">
 </head>
-
 <body>
-
-<header>
-    <div class="content flex_space">
-        <div class="navlinks">
-            <ul id="menulist">
-                <li class="image-square"></li>
-                <li> <a href="#usuario">"Traer el nombre delusuario"</a> </li>
-                <li><a href="filtroBusqueda.html">Reservas</a></li>
-                <li> <a href="#pagos">Pagos</a> </li>
-                <li><a href="#soporte">Soporte</a></li>
-                <li> <a href="index.html">Salir</a> </li>
-            </ul>
-            <div class="slider-container">
-                <div class="slider position"></div>
+    <header>
+        <div class="content flex_space">
+            <div class="navlinks">
+                <ul id="menulist">
+                    <li class="image-square"></li>
+                    <li> <a href="#usuario">"Traer el nombre delusuario"</a> </li>
+                    <li><a href="filtroBusqueda.html">Reservas</a></li>
+                    <li> <a href="#pagos">Pagos</a> </li>
+                    <li><a href="#soporte">Soporte</a></li>
+                    <li> <a href="index.html">Salir</a> </li>
+                </ul>
+                <div class="slider-container">
+                    <div class="slider position"></div>
+                </div>
+                <span class="fa fa-bars" onclick="menutoggle()"></span>
             </div>
-            <span class="fa fa-bars" onclick="menutoggle()"></span>
+        </div>
+    </header>
+
+<div class="slider-container">
+    <div class="slider position">
+        <div class="slider-text">
+            <h1>Bienvenido a Hotel la Gabarra</h1>
+            <p>Disfruta de una estancia inolvidable</p>
         </div>
     </div>
-</header>
+</div>
 
 <script>
     var menulist = document.getElementById('menulist');
@@ -43,3 +49,5 @@
 </script>
 </body>
 </html>
+
+

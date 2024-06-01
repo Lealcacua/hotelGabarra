@@ -130,44 +130,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1); 
 }
 
-.custom-select-wrapper {
-    position: relative;
-    display: inline-block;
-    user-select: none;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.custom-select {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.custom-select__trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #444546;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.2);
-}
-
-.custom-select__trigger span {
-    color: #ecf0f1;
-}
-
-.custom-select__trigger .arrow {
-    border: solid #ecf0f1;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-}
 
 .custom-options {
     position: absolute;
