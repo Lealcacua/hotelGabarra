@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <link rel="stylesheet" type="text/css" href="../styles/verReservas.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="../images/Persona.jpg" alt="Verificado" class="verified-icon">
+            <span class="username">ADMIN</span>
+        </div>
+        <div class="header-center">
+            <h1>HOTEL GABARRA</h1>
+            <div class="stars">
+                <span>★ ★ ★ ★ ★</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="volverBtn" onclick="window.location.href='iniAdmin.html';">VOLVER</button>
+        </div>
+    </div>
+
+    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">RESERVAS</h2>
+
+    <!-- Aquí se agrega la tabla -->
+    <table id="habitacionesTable" style="margin: 0 auto;">
+        <thead>
+            <tr>
+                <th>idReserva</th>
+                <th>idCliente</th>
+                <th>precio</th>
+            </tr>
+        </thead>
+        <tbody id="habitacionesBody">
+            <!-- Aquí se llenará dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Se vincula el archivo JavaScript -->
+    <script src="../js/verReservas.js"></script>
+</body>
+
+</html>

@@ -6,36 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
-    <link rel="stylesheet" type="text/css" href="../styles/filtroBusqueda.css">
+    <link rel="stylesheet" type="text/css" href="/proyectoHotelGabarra/styles/filtroBusqueda.css">
 </head>
 
 <body>
     <div class="header">
-        <div class="left-section">
-            <div class="image-squareUser"></div>
-            <div class="login-text">
-                <p><a href="#" class="loginBtn-text">nombre de usuario</a></p>
+        <div class="header-left">
+            <img src="/proyectoHotelGabarra/images/Persona.jpg" alt="Verificado" class="verified-icon">
+            <span class="username">(nombre de usuario)</span>
+        </div>
+        <div class="header-center">
+            <h1>HOTEL GABARRA</h1>
+            <div class="stars">
+                <span>★ ★ ★ ★ ★</span>
             </div>
         </div>
-        <div class="right-section">
-            <h2><a href="#" class="volverBtn-text">VOLVER</a></h2>
-            <div class="image-square"></div>
+        <div class="header-right">
+            <button class="volverBtn">VOLVER</button>
         </div>
     </div>
 
     <div class="wrapper">
         <div class="form-wrapper buscar">
             <form action="">
-                <h2>HABITACIONES</h2>
-                <div class="input-group">
-                    <input type="date" required>
-                    <label for="">Fecha Inicial:</label>
+                <div class="date-picker">
+                    <label for="checkin">FECHA INICIAL:</label>
+                    <input type="date" id="checkin" required>
+                    <label for="checkout">FECHA SALIDA:</label>
+                    <input type="date" id="checkout" required>
                 </div>
-                <div class="input-group">
-                    <input type="date" required>
-                    <label for="">Fecha Final:</label>
-                </div>
-                <div class="input-group">
+                <div class="person-selector">
                     <label for="personas">PERSONAS:</label>
                     <div class="personas-container">
                         <button type="button" class="personas-btn" id="decrement">-</button>
@@ -43,18 +43,62 @@
                         <button type="button" class="personas-btn" id="increment">+</button>
                     </div>
                 </div>
-                
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select">   
-                        </div>
-                        
-                    </div>
-               
                 <button type="submit">BUSCAR</button>
             </form>
+            <hr class="divider">
+            <h2 style="text-align: center;">RESUMEN</h2>
+            <div id="resumen"></div>
+            <button id="pagarReserva" style="display: none;">PAGAR RESERVA</button>
+        </div>
+
+        <div class="rooms">
+            <div class="room-card">
+                <img src="/proyectoHotelGabarra/images/sencilla1.jpg" alt="Estandar Matrimonial">
+                <div class="room-info">
+                    <h3>Estandar Matrimonial</h3>
+                    <p>Max 2 personas • NO SE PERMITE FUMAR</p>
+                    <p>Desde 500.000 COP/ Noche</p>
+                    <button class="addReservaBtn">AÑADIR A RESERVA</button>
+                </div>
+            </div>
+            <div class="room-card">
+                <img src="sencilla.jpg" alt="Estandar Sencilla">
+                <div class="room-info">
+                    <h3>Estandar Sencilla</h3>
+                    <p>Max 2 personas • NO SE PERMITE FUMAR</p>
+                    <p>Desde 350.000 COP/ Noche</p>
+                    <button class="addReservaBtn">AÑADIR A RESERVA</button>
+                </div>
+            </div>
+            <div class="room-card">
+                <img src="doble.jpg" alt="Estandar Doble">
+                <div class="room-info">
+                    <h3>Estandar Doble</h3>
+                    <p>Max 2 personas • NO SE PERMITE FUMAR</p>
+                    <p>Desde 400.000 COP/ Noche</p>
+                    <button class="addReservaBtn">AÑADIR A RESERVA</button>
+                </div>
+            </div>
+            <div class="room-card">
+                <img src="sencilla.jpg" alt="Estandar Sencilla">
+                <div class="room-info">
+                    <h3>Estandar Sencilla</h3>
+                    <p>Max 2 personas • NO SE PERMITE FUMAR</p>
+                    <p>Desde 350.000 COP/ Noche</p>
+                    <button class="addReservaBtn">AÑADIR A RESERVA</button>
+                </div>
+            </div>
         </div>
     </div>
+
     <script src="../js/filtroBusqueda.js"></script>
 </body>
 
 </html>
+
+
+
+
+
+
+
