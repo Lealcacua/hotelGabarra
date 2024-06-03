@@ -10,8 +10,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-h1,
-h2 {
+h1, h2 {
     font-family: sans-serif;
     font-weight: 400;
 }
@@ -47,6 +46,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
+    height: 15%;
     z-index: 1000;
 }
 
@@ -87,9 +87,9 @@ header .navlinks span {
 }
 
 .image-square {
-    width: 40px;
-    height: 40px;
-    background-image: url('https://img.freepik.com/vector-premium/icono-perfil-usuario-estilo-plano-ilustracion-vector-avatar-miembro-sobre-fondo-aislado-concepto-negocio-signo-permiso-humano_157943-15752.jpg?w=740');
+    width: 60px;
+    height: 60px;
+    background-image: url('https://st2.depositphotos.com/50337402/47114/v/450/depositphotos_471143640-stock-illustration-approve-gold-plated-metalic-icon.jpg');
     background-size: cover;
     background-position: center;
     background-color: #ddd;
@@ -97,22 +97,30 @@ header .navlinks span {
 }
 
 .slider-container {
-    position: fixed;
-    top: 41px; /* Ajusta este valor según la altura de tu header */
-    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: calc(100vh - 41px); /* Ajusta este valor según la altura de tu header */
-    
+    height: 100vh;
+    padding-top: 160px;
+    box-sizing: border-box;
+}
+
+.position {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
 }
 
 .slider {
     background-image: url('../images/sencilla1.jpg');
     background-size: cover;
     background-position: center;
-    height: 100%;
+    height: calc(100vh - 40px);
     width: 100%;
     border-radius: 10px;
-    margin: 0;
+    margin: 0 auto;
     animation: animate 10s infinite;
     position: relative;
 }
@@ -166,4 +174,22 @@ header .navlinks span {
 
 .slider-text p {
     font-size: 1.5rem;
+}
+
+.volverBtn {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: rgb(234, 238, 5);
+    box-shadow: 0 0 10px rgb(234, 238, 5);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

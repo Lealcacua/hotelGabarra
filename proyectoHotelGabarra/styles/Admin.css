@@ -43,6 +43,11 @@ header {
     box-shadow: 0 0 10px rgb(234, 238, 5);
     display: flex;
     align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 15%;
+    z-index: 1000;
 }
 
 header ul {
@@ -82,8 +87,8 @@ header .navlinks span {
 }
 
 .image-square {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-image: url('https://st2.depositphotos.com/50337402/47114/v/450/depositphotos_471143640-stock-illustration-approve-gold-plated-metalic-icon.jpg');
     background-size: cover;
     background-position: center;
@@ -95,47 +100,81 @@ header .navlinks span {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     height: 100vh;
+    padding-top: 160px;
+    box-sizing: border-box;
 }
 
 .position {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
 }
 
 .slider {
-    background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+    background-image: url('../images/sencilla1.jpg');
     background-size: cover;
-    height: 60%;  
-    width: 80%;  
+    background-position: center;
+    height: calc(100vh - 40px);
+    width: 100%;
     border-radius: 10px;
-    margin: 20px auto; 
+    margin: 0 auto;
     animation: animate 10s infinite;
+    position: relative;
+   
 }
 
 @keyframes animate {
     20% {
-        background-image: url('https://st2.depositphotos.com/50337402/47118/v/600/depositphotos_471186670-stock-illustration-apple-golden-line-premium-logo.jpg');
+        background-image: url('../images/sencilla1.jpg');
         background-size: cover;
     }
+
     40% {
-        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470978270-stock-illustration-boston-metro-logo-gold-plated.jpg');
+        background-image: url('../images/sencilla2.jpg');
         background-size: cover;
     }
+
     60% {
-        background-image: url('https://st2.depositphotos.com/50337402/47097/v/600/depositphotos_470971660-stock-illustration-brasilia-metro-logo-gold-plated.jpg');
+        background-image: url('../images/sencilla3.jpg');
         background-size: cover;
     }
+
     80% {
-        background-image: url('https://st2.depositphotos.com/50337402/47120/v/600/depositphotos_471207806-stock-illustration-athens-metro-logo-golden-line.jpg');
+        background-image: url('../images/sencilla4.jpg');
         background-size: cover;
     }
+
     100% {
-        background-image: url('https://st2.depositphotos.com/50337402/47116/v/600/depositphotos_471163460-stock-illustration-ankara-metro-logo-golden-line.jpg');
+        background-image: url('../images/sencilla4.jpg');
         background-size: cover;
     }
+}
+
+.slider-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-family: 'Verdana', Verdana;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+.slider-text h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.slider-text p {
+    font-size: 1.5rem;
 }
 
 .volverBtn {

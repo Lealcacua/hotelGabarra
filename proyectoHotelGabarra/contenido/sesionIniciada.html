@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel la Gabarra</title>
     <link rel="stylesheet" href="../styles/sesionIniciada.css">
 </head>
+
 <body>
     <header>
         <div class="content flex_space">
             <div class="navlinks">
                 <ul id="menulist">
                     <li class="image-square"></li>
-                    <li> <a href="#usuario">"Traer el nombre delusuario"</a> </li>
+                    <li> <a href="#usuario">(nombre de usuario)</a> </li>
                     <li><a href="filtroBusqueda.html">Reservas</a></li>
-                    <li> <a href="#pagos">Pagos</a> </li>
-                    <li><a href="#soporte">Soporte</a></li>
-                    <li> <a href="index.html">Salir</a> </li>
+                    <li> <a href="pagos.html">Pagos</a> </li>
+                    <li><a href="soporte.html">Soporte</a></li>
+                    <li><button class="volverBtn" onclick="window.location.href='index.html';">SALIR</button></li>
                 </ul>
-                <div class="slider-container">
-                    <div class="slider position"></div>
-                </div>
                 <span class="fa fa-bars" onclick="menutoggle()"></span>
             </div>
         </div>
     </header>
 
-<div class="slider-container">
-    <div class="slider position">
-        <div class="slider-text">
-            <h1>Bienvenido a Hotel la Gabarra</h1>
-            <p>Disfruta de una estancia inolvidable</p>
+    <div class="slider-container">
+        <div class="slider position">
+            <div class="slider-text">
+                <h1>¡BIENVENIDO!</h1>
+                <h1>HOTEL GABARRA</h1>
+                <h1>★ ★ ★ ★ ★</h1>
+                <p>DISFRUTA DE UNA ESTANCIA INOLVIDABLE</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    var menulist = document.getElementById('menulist');
-    menulist.style.maxHeight = "0px";
+    <script>
+        var menulist = document.getElementById('menulist');
+        menulist.style.maxHeight = "0px";
 
-    function menutoggle() {
-        if (menulist.style.maxHeight == "0px") {
-            menulist.style.maxHeight = "100vh";
-        } else {
-            menulist.style.maxHeight = "0px";
+        function menutoggle() {
+            if (menulist.style.maxHeight == "0px") {
+                menulist.style.maxHeight = "100vh";
+            } else {
+                menulist.style.maxHeight = "0px";
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>
-
-

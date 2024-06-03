@@ -10,8 +10,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-h1,
-h2 {
+h1, h2 {
     font-family: sans-serif;
     font-weight: 400;
 }
@@ -47,6 +46,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
+    height: 15%;
     z-index: 1000;
 }
 
@@ -87,8 +87,8 @@ header .navlinks span {
 }
 
 .image-square {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     background-image: url('https://st2.depositphotos.com/50337402/47114/v/450/depositphotos_471143640-stock-illustration-approve-gold-plated-metalic-icon.jpg');
     background-size: cover;
     background-position: center;
@@ -102,9 +102,7 @@ header .navlinks span {
     align-items: center;
     width: 100%;
     height: 100vh;
-    /* Altura total de la ventana */
-    padding-top: 40px;
-    /* Ajusta el padding para que el slider no quede detrás del header */
+    padding-top: 160px;
     box-sizing: border-box;
 }
 
@@ -161,7 +159,6 @@ header .navlinks span {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    /* Color del texto */
     text-align: center;
     font-family: 'Verdana', Verdana;
     text-shadow:
@@ -169,7 +166,6 @@ header .navlinks span {
         1px -1px 0 #000,
         -1px 1px 0 #000,
         1px 1px 0 #000;
-    /* Sombra para crear el borde negro */
 }
 
 .slider-text h1 {

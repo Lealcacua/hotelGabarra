@@ -8,8 +8,8 @@
 }
 
 body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
 }
 
 .header {
@@ -45,6 +45,7 @@ body {
 
 .header-center h1 {
     margin: 0;
+    font-size: 32px;
 }
 
 .stars {
@@ -77,3 +78,70 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+#habitacionesTitle {
+    text-align: center;
+    font-size: 36px;
+    margin: 20px;
+}
+
+.contact-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    font-size: 18px;
+}
+
+.contact-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.contact-container p,
+.contact-container .contact-info,
+.contact-container .social-media-heading,
+.contact-container .social-media,
+.contact-container .social-media .social-item {
+    text-align: left;
+}
+
+.contact-info {
+    margin: 20px 0;
+}
+
+.social-media {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.social-media h2 {
+    font-size: 1.2rem;
+}
+
+.social-media a {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.social-media img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.social-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+#habitacionesTable {
+    margin: 20px auto;
+    width: 90%;
+}
+
+

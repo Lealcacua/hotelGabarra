@@ -10,38 +10,44 @@
 
 <body>
 
-<header>
-    <div class="content flex_space">
-        <div class="navlinks">
-            <ul id="menulist">
-                <li class="image-square"></li>
-                <li> <a href="#usuario">ADMIN</a> </li>
-                <li><a href="filtroBusqueda.html">Reservas</a></li>
-                <li> <a href="pagos.html">Pagos</a> </li>
-                <li><a href="verReservas.html">Ver reservas</a></li>
-                <li><a href="habitaciones.html">Habitaciones</a></li>
-                <li><a href="soporte.html">Soporte</a></li>
-                <li><button class="volverBtn" onclick="window.location.href='index.html';">SALIR</button></li>
-            </ul>
-            <div class="slider-container">
-                <div class="slider position"></div>
+    <header>
+        <div class="content flex_space">
+            <div class="navlinks">
+                <ul id="menulist">
+                    <li class="image-square"></li>
+                    <li> <a href="#usuario">ADMIN</a> </li>
+                    <li><a href="filtroBusqueda.html">Reservas</a></li>
+                    <li> <a href="pagos.html">Pagos</a> </li>
+                    <li><a href="verReservas.html">Ver reservas</a></li>
+                    <li><a href="habitaciones.html">Habitaciones</a></li>
+                    <li><button class="volverBtn" onclick="window.location.href='index.html';">SALIR</button></li>
+                </ul>
+                <span class="fa fa-bars" onclick="menutoggle()"></span>
             </div>
-            <span class="fa fa-bars" onclick="menutoggle()"></span>
+        </div>
+    </header>
+    <div class="slider-container">
+        <div class="slider position">
+            <div class="slider-text">
+                <h1>¡BIENVENIDO!</h1>
+                <h1>HOTEL GABARRA</h1>
+                <h1>★ ★ ★ ★ ★</h1>
+                <p>DISFRUTA DE UNA ESTANCIA INOLVIDABLE</p>
+            </div>
         </div>
     </div>
-</header>
+    <script>
+        var menulist = document.getElementById('menulist');
+        menulist.style.maxHeight = "0px";
 
-<script>
-    var menulist = document.getElementById('menulist');
-    menulist.style.maxHeight = "0px";
-
-    function menutoggle() {
-        if (menulist.style.maxHeight == "0px") {
-            menulist.style.maxHeight = "100vh";
-        } else {
-            menulist.style.maxHeight = "0px";
+        function menutoggle() {
+            if (menulist.style.maxHeight == "0px") {
+                menulist.style.maxHeight = "100vh";
+            } else {
+                menulist.style.maxHeight = "0px";
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
     <div class="header">
         <div class="header-left">
             <img src="../images/Persona.jpg" alt="Verificado" class="verified-icon">
-            <span class="username">ADMIN</span>
+            <span class="username">(nombre de usuario)</span>
         </div>
         <div class="header-center">
             <h1>HOTEL GABARRA</h1>
@@ -22,28 +22,37 @@
             </div>
         </div>
         <div class="header-right">
-            <button class="volverBtn" onclick="window.location.href='iniAdmin.html';">VOLVER</button>
+            <button class="volverBtn" onclick="window.location.href='sesionIniciada.html';">VOLVER</button>
         </div>
     </div>
 
-    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">SOPORTE</h2>
+    <h2 id="habitacionesTitle">SOPORTE</h2>
 
-    <!-- Aquí se agrega la tabla -->
-    <table id="habitacionesTable" style="margin: 0 auto;">
-        <thead>
-            <tr>
-                <th>.</th>
-                <th>.</th>
-                <th>.</th>
-            </tr>
-        </thead>
-        <tbody id="habitacionesBody">
-            <!-- Aquí se llenará dinámicamente con JavaScript -->
-        </tbody>
-    </table>
+    <div class="contact-container">
+        <h2>Descripción del Hotel</h2>
+        <p>Cuenta con 20 habitaciones con una terraza y una zona de estar. Algunas están equipadas con Wi-Fi gratis y TV de pantalla plana con canales vía satélite. Disfruta de nuestro show de fuegos artificiales todas las noches.</p>
+        
+        <h2>Contacto</h2>
+        <div class="contact-info">
+            <p><strong>Número de contacto:</strong> +57 123 456 7890</p>
+            <p><strong>Email:</strong> contacto@hotelxyz.com</p>
+        </div>
 
-    <!-- Se vincula el archivo JavaScript -->
-    <script src="../js/soporte.js"></script>
+        <h2 class="social-media-heading">Redes Sociales</h2>
+        <div class="social-media">
+            <div class="social-item">
+                <img src="../images/Facebook.jpeg" alt="Facebook">
+                <a href="https://www.facebook.com/HotelXYZ" target="_blank">Facebook</a>
+            </div>
+            <div class="social-item">
+                <img src="../images/Instagram.jpeg" alt="Instagram">
+                <a href="https://www.instagram.com/HotelXYZ" target="_blank">Instagram</a>
+            </div>
+            <div class="social-item">
+                <img src="../images/X.jpeg" alt="Twitter">
+                <a href="https://www.twitter.com/HotelXYZ" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
