@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
-    <link rel="stylesheet" type="text/css" href="../styles/habitaciones.css">
+    <link rel="stylesheet" type="text/css" href="/styles/verReservas.css">
 </head>
+
 <body>
     <div class="header">
         <div class="header-left">
-            <img src="../images/Persona.jpg" alt="Verificado" class="verified-icon">
+            <img src="/images/Persona.jpg" alt="Verificado" class="verified-icon">
             <span class="username">ADMIN</span>
         </div>
         <div class="header-center">
@@ -24,23 +26,24 @@
         </div>
     </div>
 
-    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">HABITACIONES</h2>
+    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">RESERVAS</h2>
 
-    <table id="habitacionesTable" style="width: 80%; margin: 20px auto; border-collapse: collapse;">
+    <!-- Aquí se agrega la tabla -->
+    <table id="habitacionesTable" style="margin: 0 auto;">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Número de Habitación</th>
-                <th>Descripción</th>
-                <th>Precio</th>
+                <th>idReserva</th>
+                <th>idCliente</th>
+                <th>precio</th>
             </tr>
         </thead>
         <tbody id="habitacionesBody">
-            <!-- Las habitaciones se añadirán aquí dinámicamente -->
+            <!-- Aquí se llenará dinámicamente con JavaScript -->
         </tbody>
     </table>
 
-    <script src="../js/habitaciones.js"></script>
+    <!-- Se vincula el archivo JavaScript -->
+    <script src="/js/verReservas.js"></script>
 </body>
-</html>
 
+</html>

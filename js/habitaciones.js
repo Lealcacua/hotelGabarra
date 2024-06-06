@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/habitaciones')
+    fetch('/habitaciones12')
        .then(response => response.json())
        .then(data => {
             const habitacionesBody = document.getElementById('habitacionesBody');

@@ -27,11 +27,7 @@ const PORT = process.env.PORT || 5500;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'proyectoHotelGabarra')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'proyectoHotelGabarra', 'habitaciones.html'));
-});
 
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena, confirmContrasena } = req.body;
@@ -66,15 +62,18 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/habitaciones', async (req, res) => {
+app.get('/habitaciones12', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM railway.Habitaciones');
+        console.log('si entro');
         res.json(rows);
     } catch (err) {
         console.error(err);
         res.status(500).send('Error al obtener habitaciones');
     }
 });
+
+
 
 app.listen(PORT, async () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
