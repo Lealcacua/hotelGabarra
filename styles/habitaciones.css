@@ -77,3 +77,52 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* Estilos para la tabla de habitaciones */
+
+.title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.table-container {
+    width: 80%;
+    margin: 20px auto;
+    overflow-x: auto;
+}
+
+#habitacionesTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#habitacionesTable th, #habitacionesTable td {
+    padding: 10px;
+    border: 1px solid #dddddd;
+    text-align: left;
+}
+
+#habitacionesTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#habitacionesTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#habitacionesTable tbody tr:hover {
+    background-color: #eaeaea;
+}
+
+#habitacionesTable td {
+    font-size: 16px;
+}
+
+#habitacionesTable td:nth-child(3) {
+    max-width: 250px; /* Limita la anchura de la descripción */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

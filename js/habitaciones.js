@@ -1,8 +1,29 @@
+// Define la función handlePriceEdit antes de usarla
+function handlePriceEdit(cell) {
+    cell.addEventListener('dblclick', function () {
+        const idHabitacion = cell.parentElement.querySelector('td:first-child').textContent;
+        const currentPrice = cell.textContent;
+
+        const newPrice = prompt('Introduce el nuevo precio:', currentPrice);
+        if (newPrice !== null && newPrice !== currentPrice) {
+            cell.textContent = newPrice; // Actualiza el texto de la celda
+            // Envía el nuevo precio a la base de datos
+            updatePrice(idHabitacion, newPrice);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/habitaciones12')
-       .then(response => response.json())
-       .then(data => {
-            const habitacionesBody = document.getElementById('habitacionesBody');
+    const habitacionesBody = document.getElementById('habitacionesBody');
+
+    fetch('http://localhost:3000/habitaciones')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
             data.forEach(habitacion => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -12,7 +33,31 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${habitacion.precio}</td>
                 `;
                 habitacionesBody.appendChild(row);
+
+                // Obtener la celda de precio y hacerla editable
+                const priceCell = row.querySelector('td:last-child');
+                handlePriceEdit(priceCell);
             });
         })
-       .catch(error => console.error('Error fetching habitaciones:', error));
+        .catch(error => console.error('Error fetching habitaciones:', error));
 });
+
+async function updatePrice(idHabitacion, newPrice) {
+    try {
+        const response = await fetch(`http://localhost:3000/habitaciones/${idHabitacion}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ precio: newPrice })
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar el precio');
+        }
+
+        alert('Precio actualizado correctamente');
+    } catch (error) {
+        alert('Error al actualizar el precio. Por favor, inténtalo de nuevo.');
+    }
+}

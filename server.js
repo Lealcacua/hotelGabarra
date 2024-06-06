@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2/promise');
+const cors = require('cors');
 require('dotenv').config();
-const path = require('path');
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -23,11 +23,18 @@ pool.getConnection()
     });
 
 const app = express();
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 3000;
+
+const corsOptions = {
+   origin: '*', // Permite todas las solicitudes de cualquier origen
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena, confirmContrasena } = req.body;
@@ -55,17 +62,34 @@ app.post('/login', async (req, res) => {
     const { numeroCelular, Contrasena } = req.body;
 
     try {
-        res.redirect('/contenido/soporte');
+        const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE numeroCelular = ?', [numeroCelular]);
+        if (rows.length === 0) {
+            return res.status(400).send('Usuario no encontrado');
+        }
+
+        const user = rows[0];
+        const isMatch = await bcrypt.compare(Contrasena, user.Contrasena);
+        if (!isMatch) {
+            return res.status(400).send('Contraseña incorrecta');
+        }
+
+        res.json({ redirectTo: '/sesionIniciada.html' }); // Envia la URL de redirección al cliente
     } catch (err) {
         console.error(err);
         res.status(500).send('Error en el servidor');
     }
 });
 
-app.get('/habitaciones12', async (req, res) => {
+
+
+
+
+
+
+
+app.get('/habitaciones', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM railway.Habitaciones');
-        console.log('si entro');
+        const [rows] = await pool.query('SELECT * FROM railway.Habitaciones;');
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -75,16 +99,10 @@ app.get('/habitaciones12', async (req, res) => {
 
 
 
-app.listen(PORT, async () => {
+
+
+app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
-    try {
-        const [rows] = await pool.query('SELECT * FROM railway.Habitaciones');
-        console.log('Tabla de Habitaciones:');
-        console.table(rows);
-    } catch (err) {
-        console.error('Error al obtener habitaciones al iniciar el servidor:', err);
-    }
 });
 
 module.exports = pool;
-
