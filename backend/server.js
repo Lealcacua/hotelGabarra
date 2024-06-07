@@ -27,20 +27,23 @@ pool.getConnection()
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
+app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
 
     if (!nombreCompleto || !numeroCedula || !numeroCelular || !correo || !contrasena) {
-        return res.status(400).send('Todos los campos son requeridos');
+        return res.status(400).send('Todos los campos son requeridos sapo');
     }
 
     try {
         const hashedPassword = await bcrypt.hash(contrasena, 10);
-        const result = await pool.query('INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)', [nombreCompleto, numeroCedula, numeroCelular, correo, hashedPassword]);
+        await pool.query('INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)', [nombreCompleto, numeroCedula, numeroCelular, correo, hashedPassword]);
 
         res.status(201).send('Usuario registrado exitosamente');
     } catch (err) {
@@ -70,12 +73,11 @@ app.post('/login', async (req, res) => {
         const usuario = rows[0];
         console.log('Usuario encontrado:', usuario);
 
-        const contrasenaValida = await bcrypt.compare(contrasena, usuario.Contrasena);
+        const contrasenaValida = await verificarContrasena(contrasena, usuario.Contrasena);
         console.log('Contraseña válida:', contrasenaValida);
 
         if (contrasenaValida) {
-            // Redirigir a la página sesionIniciada.html
-            res.sendFile(path.join(__dirname, '/sesionIniciada.html'));
+            res.sendFile(path.join(__dirname, '../public/sesionIniciada.html'));
         } else {
             console.log('Contraseña incorrecta');
             res.redirect('/?error=auth');
@@ -86,24 +88,15 @@ app.post('/login', async (req, res) => {
     }
 });
 
+async function verificarContrasena(contrasena, hashedPassword) {
+    return await bcrypt.compare(contrasena, hashedPassword);
+}
 
-app.post('/register', async (req, res) => {
-    const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
 
-    if (!nombreCompleto || !numeroCedula || !numeroCelular || !correo || !contrasena) {
-        return res.status(400).send('Todos los campos son requeridos');
-    }
 
-    try {
-        const hashedPassword = await bcrypt.hash(contrasena, 10);
-        await pool.query('INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)', [nombreCompleto, numeroCedula, numeroCelular, correo, hashedPassword]);
 
-        res.status(201).send('Usuario registrado exitosamente');
-    } catch (err) {
-        console.error('Error al registrar usuario:', err);
-        res.status(500).send('Error interno del servidor');
-    }
-});
+
+
 
 
 

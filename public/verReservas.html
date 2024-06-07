@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
-    <link rel="stylesheet" type="text/css" href="styles/pagos.css">
+    <link rel="stylesheet" type="text/css" href="styles/verReservas.css">
 </head>
 
 <body>
     <div class="header">
         <div class="header-left">
-            <img src="/images/Persona.jpg" alt="Verificado" class="verified-icon">
-            <span class="username">(nombre de usuario o ADMIN)</span>
+            <img src="images/Persona.jpg" alt="Verificado" class="verified-icon">
+            <span class="username">ADMIN</span>
         </div>
         <div class="header-center">
             <h1>HOTEL GABARRA</h1>
@@ -26,15 +26,15 @@
         </div>
     </div>
 
-    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">DETALLES DE PAGOS</h2>
+    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">RESERVAS</h2>
 
     <!-- Aquí se agrega la tabla -->
     <table id="habitacionesTable" style="margin: 0 auto;">
         <thead>
             <tr>
-                <th>.</th>
-                <th>.</th>
-                <th>.</th>
+                <th>idReserva</th>
+                <th>idCliente</th>
+                <th>precio</th>
             </tr>
         </thead>
         <tbody id="habitacionesBody">
@@ -43,7 +43,7 @@
     </table>
 
     <!-- Se vincula el archivo JavaScript -->
-    <script src="js/pagos.js"></script>   <!-- este js no existe tener en cuenta -->
+    <script src="js/verReservas.js"></script>
 </body>
 
 </html>

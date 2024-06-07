@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 
 <body>
     <div class="wrapper">
         <div class="form-wrapper sign-in">
-            <form action="/login" method="POST">
+            <form action="http://127.0.0.1:3000/login" method="POST">
                 <h2>INGRESAR</h2>
                 <div class="input-group">
                     <input type="email" id="correo" name="correo" required>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-wrapper sign-up">
-            <form action="/register" method="POST">
+            <form action="http://127.0.0.1:3000/register" method="POST">
                 <h2> . </h2>
                 <h2>CREAR CUENTA</h2>
                 <div class="input-group">
@@ -54,11 +54,11 @@
                     <label for="Correo">Correo</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="Contrasena" required>
+                    <input type="password" name="contrasena" required>
                     <label for="Contrasena">Contraseña</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="confirmContrasena" required>
+                    <input type="password" required>
                     <label for="confirmContrasena">Confirmar contraseña</label>
                 </div>
                 <button type="submit">CONFIRMAR</button>
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    <script src="/js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
