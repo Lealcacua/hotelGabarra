@@ -27,15 +27,10 @@ pool.getConnection()
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
 
