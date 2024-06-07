@@ -1,4 +1,3 @@
-// Define la función handlePriceEdit antes de usarla
 function handlePriceEdit(cell) {
     cell.addEventListener('dblclick', function () {
         const idHabitacion = cell.parentElement.querySelector('td:first-child').textContent;
@@ -6,8 +5,7 @@ function handlePriceEdit(cell) {
 
         const newPrice = prompt('Introduce el nuevo precio:', currentPrice);
         if (newPrice !== null && newPrice !== currentPrice) {
-            cell.textContent = newPrice; // Actualiza el texto de la celda
-            // Envía el nuevo precio a la base de datos
+            cell.textContent = newPrice; 
             updatePrice(idHabitacion, newPrice);
         }
     });
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 `;
                 habitacionesBody.appendChild(row);
 
-                // Obtener la celda de precio y hacerla editable
                 const priceCell = row.querySelector('td:last-child');
                 handlePriceEdit(priceCell);
             });
@@ -58,6 +55,7 @@ async function updatePrice(idHabitacion, newPrice) {
 
         alert('Precio actualizado correctamente');
     } catch (error) {
+        console.error('Error al actualizar el precio:', error);
         alert('Error al actualizar el precio. Por favor, inténtalo de nuevo.');
     }
 }

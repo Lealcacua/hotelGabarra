@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
+
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -26,64 +28,87 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-   origin: '*', // Permite todas las solicitudes de cualquier origen
+    origin: '*',
     optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post('/register', async (req, res) => {
-    const { nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena, confirmContrasena } = req.body;
+    const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
 
-    if (Contrasena !== confirmContrasena) {
-        return res.status(400).send('Las contraseñas no coinciden');
+    if (!nombreCompleto || !numeroCedula || !numeroCelular || !correo || !contrasena) {
+        return res.status(400).send('Todos los campos son requeridos');
     }
 
-    const hashedPassword = await bcrypt.hash(Contrasena, 10);
-
     try {
-        const [result] = await pool.query(
-            'INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)',
-            [nombreCompleto, numeroCedula, numeroCelular, Correo, hashedPassword]
-        );
+        const hashedPassword = await bcrypt.hash(contrasena, 10);
+        const result = await pool.query('INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)', [nombreCompleto, numeroCedula, numeroCelular, correo, hashedPassword]);
 
-        res.redirect('/sesionIniciada');
+        res.status(201).send('Usuario registrado exitosamente');
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Error al registrar usuario');
+        console.error('Error al registrar usuario:', err);
+        res.status(500).send('Error interno del servidor');
     }
 });
 
 app.post('/login', async (req, res) => {
-    const { numeroCelular, Contrasena } = req.body;
+    const { correo, contrasena } = req.body;
+    console.log('Datos recibidos:', { correo, contrasena });
+
+    if (!correo || !contrasena) {
+        return res.status(400).send('Correo y contraseña son requeridos');
+    }
 
     try {
-        const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE numeroCelular = ?', [numeroCelular]);
+        const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE Correo = ?', [correo]);
+        console.log('Resultado de la consulta:', rows);
+
         if (rows.length === 0) {
-            return res.status(400).send('Usuario no encontrado');
+            console.log('Usuario no encontrado');
+            res.redirect('/?error=auth');
+            return;
         }
 
-        const user = rows[0];
-        const isMatch = await bcrypt.compare(Contrasena, user.Contrasena);
-        if (!isMatch) {
-            return res.status(400).send('Contraseña incorrecta');
-        }
+        const usuario = rows[0];
+        console.log('Usuario encontrado:', usuario);
 
-        res.json({ redirectTo: '/sesionIniciada.html' }); // Envia la URL de redirección al cliente
+        const contrasenaValida = await bcrypt.compare(contrasena, usuario.Contrasena);
+        console.log('Contraseña válida:', contrasenaValida);
+
+        if (contrasenaValida) {
+            // Redirigir a la página sesionIniciada.html
+            res.sendFile(path.join(__dirname, '/sesionIniciada.html'));
+        } else {
+            console.log('Contraseña incorrecta');
+            res.redirect('/?error=auth');
+        }
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Error en el servidor');
+        console.error('Error interno del servidor:', err);
+        res.status(500).send('Error interno del servidor');
     }
 });
 
 
+app.post('/register', async (req, res) => {
+    const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
 
+    if (!nombreCompleto || !numeroCedula || !numeroCelular || !correo || !contrasena) {
+        return res.status(400).send('Todos los campos son requeridos');
+    }
 
+    try {
+        const hashedPassword = await bcrypt.hash(contrasena, 10);
+        await pool.query('INSERT INTO railway.Usuario (nombreCompleto, numeroCedula, numeroCelular, Correo, Contrasena) VALUES (?, ?, ?, ?, ?)', [nombreCompleto, numeroCedula, numeroCelular, correo, hashedPassword]);
 
+        res.status(201).send('Usuario registrado exitosamente');
+    } catch (err) {
+        console.error('Error al registrar usuario:', err);
+        res.status(500).send('Error interno del servidor');
+    }
+});
 
 
 
@@ -92,14 +117,10 @@ app.get('/habitaciones', async (req, res) => {
         const [rows] = await pool.query('SELECT * FROM railway.Habitaciones;');
         res.json(rows);
     } catch (err) {
-        console.error(err);
+        console.error('Error al obtener habitaciones:', err);
         res.status(500).send('Error al obtener habitaciones');
     }
 });
-
-
-
-
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
