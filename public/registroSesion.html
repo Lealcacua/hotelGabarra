@@ -32,10 +32,10 @@
                 <button type="button" onclick="window.location.href='index.html';">VOLVER</button>
             </form>
         </div>
-
+        <br>
+        <br>
         <div class="form-wrapper sign-up">
             <form action="http://127.0.0.1:3000/register" method="POST">
-                <h2> . </h2>
                 <h2>CREAR CUENTA</h2>
                 <div class="input-group">
                     <input type="text" name="nombreCompleto" required>
@@ -50,15 +50,15 @@
                     <label for="numeroCelular">Número telefónico</label>
                 </div>
                 <div class="input-group">
-                    <input type="email" name="Correo" required>
-                    <label for="Correo">Correo</label>
+                    <input type="email" name="correo" required>
+                    <label for="correo">Correo</label>
                 </div>
                 <div class="input-group">
                     <input type="password" name="contrasena" required>
-                    <label for="Contrasena">Contraseña</label>
+                    <label for="contrasena">Contraseña</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" required>
+                    <input type="password" name="confirmContrasena" required>
                     <label for="confirmContrasena">Confirmar contraseña</label>
                 </div>
                 <button type="submit">CONFIRMAR</button>
@@ -68,6 +68,8 @@
             </form>
         </div>
     </div>
+</body>
+
 
     <script src="js/script.js"></script>
 </body>

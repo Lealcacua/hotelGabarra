@@ -14,11 +14,11 @@
             <div class="navlinks">
                 <ul id="menulist">
                     <li class="image-square"></li>
-                    <li><a href="/sesionIniciada.html?Usuario=${nombreCompleto}">${nombre de usuario}</a></li>
+                    <p>Bienvenido, <span id="nombreUsuario"></span>!</p>
                     <li><a href="filtroBusqueda.html">Reservas</a></li>
                     <li> <a href="pagos.html">Pagos</a> </li>
                     <li><a href="soporte.html">Soporte</a></li>
-                    <li><button class="volverBtn" onclick="window.location.href='index.html';">SALIR</button></li>
+                    <li><button class="volverBtn" onclick="window.location.href='http://127.0.0.1:5500/index.html';">SALIR</button></li>
                 </ul>
                 <span class="fa fa-bars" onclick="menutoggle()"></span>
             </div>
@@ -47,6 +47,17 @@
                 menulist.style.maxHeight = "0px";
             }
         }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const nombreDeUsuario = params.get('Usuario');
+    const nombreUsuarioElement = document.getElementById('nombreUsuario');
+    if (nombreUsuarioElement && nombreDeUsuario) {
+        nombreUsuarioElement.textContent = nombreDeUsuario;
+    }
+});
+
     </script>
 </body>
 
