@@ -41,6 +41,28 @@ addReservaBtns.forEach(button => {
 
 
 
+fetch('http://127.0.0.1:3000/user-data')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.nombreCompleto) {
+            document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
+        } else {
+            document.getElementById('nombreUsuario').textContent = 'Invitado';
+        }
+
+        var nombreCompleto = data.nombreCompleto;
+        document.getElementById("nombreUsuario").textContent = nombreCompleto;
+        console.log('Nombre completo del usuario:', nombreCompleto);
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+        document.getElementById('nombreUsuario').textContent = 'Invitado';
+    });
 
 
 

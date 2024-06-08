@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 require('dotenv').config();
 const path = require('path');
-
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -27,12 +28,20 @@ pool.getConnection()
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static('public'));
+const sessionStore = new MySQLStore({}, pool);
+app.use(session({
+    key: 'session_cookie_name',
+    secret: 'your_secret_key',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Usar secure: true en producción si se usa HTTPS
+}));
+
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-
 
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
@@ -52,39 +61,52 @@ app.post('/register', async (req, res) => {
     }
 });
 
-
-
-
 app.post('/login', async (req, res) => {
     const { correo, contrasena } = req.body;
-    console.log('Datos recibidos:', { correo, contrasena });
-
+    
     if (!correo || !contrasena) {
         return res.status(400).send('Correo y contraseña son requeridos');
     }
 
     try {
         const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE Correo = ?', [correo]);
-        console.log('Resultado de la consulta:', rows);
-
+        
         if (rows.length === 0) {
-            console.log('Usuario no encontrado');
-            res.redirect('/?error=auth');
-            return;
+            return res.redirect('/?error=auth');
         }
 
         const usuario = rows[0];
-        console.log('Usuario encontrado:', usuario);
-
         const contrasenaValida = await verificarContrasena(contrasena, usuario.Contrasena);
-        console.log('Contraseña válida:', contrasenaValida);
-
+        
         if (contrasenaValida) {
-            res.sendFile(path.join(__dirname, '../public/sesionIniciada.html'));
-            res.redirect(`/sesionIniciada.html?Usuario=${encodeURIComponent(nombreDeUsuario)}`);
+            req.session.usuario = {
+                id: usuario.ID,
+                nombreCompleto: usuario.nombreCompleto,
+                numeroCedula: usuario.numeroCedula,
+                numeroCelular: usuario.numeroCelular,
+                correo: usuario.Correo
+            };
 
+            // Obtener las reservas del usuario
+            const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [usuario.ID]);
+            console.log('Reservas del usuario:', reservas);
+
+            // Obtener los pagos del usuario
+            const [pagos] = await pool.query(`
+                SELECT Pagos.* FROM railway.Pagos
+                JOIN railway.verReservas ON Pagos.idReservas = verReservas.idReservas
+                WHERE verReservas.idUsuario = ?
+            `, [usuario.ID]);
+            console.log('Pagos del usuario:', pagos);
+
+            // Agregar reservas y pagos a la sesión
+            req.session.usuario.reservas = reservas;
+            req.session.usuario.pagos = pagos;
+
+            console.log('Datos del usuario:', req.session.usuario); // Imprimir datos del usuario
+
+            res.redirect(`/sesionIniciada.html`);
         } else {
-            console.log('Contraseña incorrecta');
             res.redirect('/?error=auth');
         }
     } catch (err) {
@@ -93,13 +115,35 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Error al cerrar la sesión');
+        }
+        res.clearCookie('connect.sid'); 
+        res.redirect('/');
+    });
+});
+
+app.get('/', (req, res) => {
+    res.status(200).send('¡Bienvenido a la página de inicio!');
+});
+
+
 async function verificarContrasena(contrasena, hashedPassword) {
     return await bcrypt.compare(contrasena, hashedPassword);
 }
 
+app.get('/user-data', (req, res) => {
+    if (req.session.usuario) {
+        res.json(req.session.usuario);
+    } else {
+        res.status(401).send('No autorizado');
+    }
+});
 
-
-app.get('/habitaciones', async (req, res) => {
+app.get('/habitaciones', async (req, res)  => {
     try {
         const [rows] = await pool.query('SELECT * FROM railway.Habitaciones;');
         res.json(rows);
@@ -114,3 +158,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = pool;
+
