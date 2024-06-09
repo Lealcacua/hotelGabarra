@@ -129,29 +129,32 @@ app.get('/reservas', async (req, res) => {
 // pagos 
 app.get('/pagos', async (req, res) => {
     try {
-        // Obtener el usuario actual desde la sesión
         const usuario = req.session.usuario;
 
         if (!usuario) {
-            // Si no hay usuario en sesión, devuelve un mensaje de error
             return res.status(401).send('Usuario no autenticado');
         }
 
-        // Obtener los pagos del usuario desde la base de datos
         const [pagos] = await pool.query(`
-            SELECT Pagos.* 
+            SELECT 
+                Pagos.idPago, 
+                verReservas.idReservas AS idReserva, 
+                Pagos.valorPago, 
+                Pagos.fechaPago, 
+                'Desconocido' AS estado
             FROM Pagos
             JOIN verReservas ON Pagos.idReservas = verReservas.idReservas
             WHERE verReservas.idUsuario = ?
         `, [usuario.id]);
 
-        // Devolver los pagos como respuesta
         res.json(pagos);
     } catch (error) {
         console.error('Error al obtener los pagos:', error);
         res.status(500).send('Error interno del servidor');
     }
 });
+
+
 
 // Confirmar pago
 app.post('/confirmarPago', async (req, res) => {
