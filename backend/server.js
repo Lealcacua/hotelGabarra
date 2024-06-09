@@ -115,6 +115,46 @@ app.post('/login', async (req, res) => {
     }
 });
 
+//ver reservas 
+app.get('/reservas', async (req, res) => {
+    try {
+        const [reservas] = await pool.query('SELECT * FROM railway.verReservas');
+        res.json(reservas);
+    } catch (err) {
+        console.error('Error al obtener reservas:', err);
+        res.status(500).send('Error al obtener reservas');
+    }
+});
+
+// pagos 
+app.get('/pagos', async (req, res) => {
+    try {
+        // Obtener el usuario actual desde la sesión
+        const usuario = req.session.usuario;
+
+        if (!usuario) {
+            // Si no hay usuario en sesión, devuelve un mensaje de error
+            return res.status(401).send('Usuario no autenticado');
+        }
+
+        // Obtener los pagos del usuario desde la base de datos
+        const [pagos] = await pool.query(`
+            SELECT Pagos.* 
+            FROM Pagos
+            JOIN verReservas ON Pagos.idReservas = verReservas.idReservas
+            WHERE verReservas.idUsuario = ?
+        `, [usuario.id]);
+
+        // Devolver los pagos como respuesta
+        res.json(pagos);
+    } catch (error) {
+        console.error('Error al obtener los pagos:', error);
+        res.status(500).send('Error interno del servidor');
+    }
+});
+
+
+
 
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {

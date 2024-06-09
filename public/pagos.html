@@ -29,42 +29,62 @@
     <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">DETALLES DE PAGOS</h2>
 
     <!-- Aquí se agrega la tabla -->
-    <table id="habitacionesTable" style="margin: 0 auto;">
+    <table id="pagosTable" style="margin: 0 auto;">
         <thead>
             <tr>
-                <th>.</th>
-                <th>.</th>
-                <th>.</th>
+                <th>ID Pago</th>
+                <th>ID Reserva</th>
+                <th>Monto</th>
+                <th>Fecha de Pago</th>
+                <th>Estado</th>
             </tr>
         </thead>
-        <tbody id="habitacionesBody">
+        <tbody id="pagosBody">
         </tbody>
     </table>
 
     <script>
-   fetch('http://127.0.0.1:3000/user-data')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.nombreCompleto) {
-            document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
-        } else {
-            document.getElementById('nombreUsuario').textContent = 'Invitado';
-        }
+        fetch('http://127.0.0.1:3000/user-data')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.nombreCompleto) {
+                    document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
+                } else {
+                    document.getElementById('nombreUsuario').textContent = 'Invitado';
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener datos del usuario:', error);
+                document.getElementById('nombreUsuario').textContent = 'Invitado';
+            });
 
-        var nombreCompleto = data.nombreCompleto;
-        document.getElementById("nombreUsuario").textContent = nombreCompleto;
-        console.log('Nombre completo del usuario:', nombreCompleto);
-    })
-    .catch(error => {
-        console.error('Error al obtener datos del usuario:', error);
-        document.getElementById('nombreUsuario').textContent = 'Invitado';
-    });
-
+        fetch('http://127.0.0.1:3000/pagos')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(pagos => {
+                const pagosBody = document.getElementById('pagosBody');
+                pagos.forEach(pago => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${pago.idPago}</td>
+                        <td>${pago.idReserva}</td>
+                        <td>${pago.monto}</td>
+                        <td>${pago.fechaPago}</td>
+                        <td>${pago.estado}</td>
+                    `;
+                    pagosBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching pagos:', error));
     </script>  
 </body>
 

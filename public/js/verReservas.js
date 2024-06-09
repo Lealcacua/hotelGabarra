@@ -22,24 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            data.forEach(reservas => {
+            data.forEach(reserva => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${reservas.idReservas}</td>
-                    <td>${reservas.idUsuario}</td>
-                    <td>${reservas.Habitaciones}</td>
-                    <td>${reservas.fechaInicio}</td>
-                    <td>${reservas.fechaFin}</td>
-                    <td>${reservas.estadoPago}</td>
+                    <td>${reserva.idReservas}</td>
+                    <td>${reserva.idUsuario}</td>
+                    <td>${reserva.Habitaciones}</td>
+                    <td>${reserva.fechaInicio}</td>
+                    <td>${reserva.fechaFin}</td>
+                    <td>${reserva.estadoPago}</td>
                 `;
                 reservasBody.appendChild(row);
-
-                const priceCell = row.querySelector('td:last-child');
-                handlePriceEdit(priceCell);
             });
         })
         .catch(error => console.error('Error fetching reservas:', error));
 });
+
 
 async function updatePrice(idReservas, newPrice) {
     try {
