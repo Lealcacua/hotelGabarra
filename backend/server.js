@@ -153,8 +153,66 @@ app.get('/pagos', async (req, res) => {
     }
 });
 
+// Confirmar pago
+app.post('/confirmarPago', async (req, res) => {
+    const { idUsuario, fechaInicio, fechaFin, numeroHabitaciones, valorPago, habitaciones } = req.body;
 
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
 
+        // Insertar datos en la tabla verReservas
+        const [result] = await connection.query(
+            'INSERT INTO railway.verReservas (idUsuario, fechaInicio, fechaFin, numeroHabitaciones) VALUES (?, ?, ?, ?)',
+            [idUsuario, fechaInicio, fechaFin, numeroHabitaciones]
+        );
+        const idReservas = result.insertId;
+
+        // Insertar datos en la tabla Pagos
+        const fechaPago = new Date().toISOString().split('T')[0];
+        await connection.query(
+            'INSERT INTO railway.Pagos (idReservas, valorPago, fechaPago) VALUES (?, ?, ?)',
+            [idReservas, valorPago, fechaPago]
+        );
+
+        // Actualizar el estado de las habitaciones en la tabla Habitaciones
+        for (const habitacion of habitaciones) {
+            await connection.query(
+                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE descripcion = ?',
+                ['OCUPADA', habitacion]
+            );
+        }
+
+        await connection.commit();
+        res.json({ success: true });
+    } catch (error) {
+        await connection.rollback();
+        console.error('Error al confirmar el pago:', error);
+        res.status(500).json({ success: false, message: 'Error al confirmar el pago' });
+    } finally {
+        connection.release();
+    }
+});
+
+// Actualizar el estado de la habitación cuando la reserva haya pasado
+setInterval(async () => {
+    try {
+        const today = new Date().toISOString().split('T')[0];
+        const [habitaciones] = await pool.query(
+            'SELECT * FROM railway.verReservas WHERE fechaFin < ?',
+            [today]
+        );
+
+        for (const reserva of habitaciones) {
+            await pool.query(
+                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE descripcion = ?',
+                ['DISPONIBLE', reserva.descripcion]
+            );
+        }
+    } catch (error) {
+        console.error('Error al actualizar el estado de las habitaciones:', error);
+    }
+}, 86400000); // Ejecutar esta función una vez al día
 
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {
@@ -213,5 +271,6 @@ app.listen(PORT, () => {
 });
 
 module.exports = pool;
+
 
 
