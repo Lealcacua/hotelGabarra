@@ -26,9 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${habitacion.idHabitacion}</td>
-                    <td>${habitacion.numeroHabitacion}</td>
+                    <td>${habitacion.imagenURL}</td>
                     <td>${habitacion.descripcion}</td>
+                    <td>${habitacion.maxPersonas}</td>
                     <td>${habitacion.precio}</td>
+                    <td>${habitacion.estadoHabitacion}</td>
                 `;
                 habitacionesBody.appendChild(row);
 

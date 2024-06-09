@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
     <link rel="stylesheet" type="text/css" href="styles/verReservas.css">
+    
 </head>
-
 <body>
     <div class="header">
         <div class="header-left">
@@ -26,24 +25,25 @@
         </div>
     </div>
 
-    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">RESERVAS</h2>
+    <h2 id="habitacionesTitle" style="text-align: center; margin-top: 20px;">RESERVAS REALIZADAS</h2>
 
-    <!-- Aquí se agrega la tabla -->
-    <table id="habitacionesTable" style="margin: 0 auto;">
+    <table id="habitacionesTable" style="width: 80%; margin: 20px auto; border-collapse: collapse;">
         <thead>
             <tr>
-                <th>idReserva</th>
-                <th>idCliente</th>
-                <th>precio</th>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Habitaciones</th>
+                <th>Fecha inicial</th>
+                <th>Fecha final</th>
+                <th>Estado de pago</th>
             </tr>
         </thead>
-        <tbody id="habitacionesBody">
-            <!-- Aquí se llenará dinámicamente con JavaScript -->
+        <tbody id="reservasBody">
+            <!-- Las habitaciones se añadirán aquí dinámicamente -->
         </tbody>
     </table>
 
-    <!-- Se vincula el archivo JavaScript -->
     <script src="js/verReservas.js"></script>
+    
 </body>
-
 </html>

@@ -130,7 +130,6 @@ app.get('/', (req, res) => {
     res.status(200).send('¡Bienvenido a la página de inicio!');
 });
 
-
 async function verificarContrasena(contrasena, hashedPassword) {
     return await bcrypt.compare(contrasena, hashedPassword);
 }
@@ -143,9 +142,25 @@ app.get('/user-data', (req, res) => {
     }
 });
 
-app.get('/habitaciones', async (req, res)  => {
+// Actualizar el endpoint /habitaciones para aceptar filtros
+app.get('/habitaciones', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM railway.Habitaciones;');
+        const { maxPersonas, estadoHabitacion } = req.query;
+
+        let query = 'SELECT * FROM railway.Habitaciones WHERE 1=1';
+        const params = [];
+
+        if (maxPersonas) {
+            query += ' AND maxPersonas >= ?';
+            params.push(maxPersonas);
+        }
+
+        if (estadoHabitacion) {
+            query += ' AND estadoHabitacion = ?';
+            params.push(estadoHabitacion);
+        }
+
+        const [rows] = await pool.query(query, params);
         res.json(rows);
     } catch (err) {
         console.error('Error al obtener habitaciones:', err);
@@ -158,4 +173,5 @@ app.listen(PORT, () => {
 });
 
 module.exports = pool;
+
 
