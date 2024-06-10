@@ -11,7 +11,7 @@
     <div class="header">
         <div class="header-left">
             <img src="images/Persona.jpg" alt="Verificado" class="verified-icon">
-            <li class="nombreUsuario" id="nombreUsuario" data-user-id=""></li> <!-- Cambio agregado aquí -->
+            <li class="nombreUsuario" id="nombreUsuario" data-user-id=""></li>
         </div>
         <div class="header-center">
             <h1>HOTEL GABARRA</h1>
@@ -46,30 +46,32 @@
             <hr class="divider">
             <h2 style="text-align: center;">RESUMEN</h2>
             <div id="resumen"></div>
-            <div id="totalPrecio" class="resumen-item"></div> <!-- Contenedor para el total de la reserva -->
+            <div id="totalPrecio" class="resumen-item"></div>
             <button id="pagarReserva" style="display: none;">PAGAR RESERVA</button>
         </div>
 
         <div class="rooms">
-            <!-- Las habitaciones se cargarán dinámicamente aquí -->
         </div>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <img src="../public/images/carrito.jpeg" alt="Campana" class="modal-image">
+            <button class="close-btn">&times;</button>
+            <h2>Confirmar Pago</h2>
+            <img src="tu_imagen.png" alt="Imagen del Modal" class="modal-image">
             <div class="modal-body">
                 <p id="modal-date"></p>
+                <div id="modal-habitaciones"></div>
                 <p id="modal-total"></p>
-                <button id="confirmarPagoBtn">CONFIRMAR PAGO (BANCO)</button>
+                <button id="confirmarPagoBtn">Confirmar Pago</button>
             </div>
         </div>
-    </div>
+    </div>    
 
     <script src="js/filtroBusqueda.js"></script>
 </body>
 </html>
+
 
 
 

@@ -279,6 +279,21 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-
-
+app.get('/ultimaReserva', (req, res) => {
+    const userId = req.query.userId;
+    // Suponiendo que tienes una base de datos configurada
+    db.collection('reservas')
+        .find({ idUsuario: userId })
+        .sort({ fecha: -1 }) // Ordenar por fecha para obtener la reserva más reciente
+        .limit(1)
+        .toArray((err, reservas) => {
+            if (err) {
+                res.status(500).send({ error: 'Error al obtener la reserva' });
+            } else if (reservas.length > 0) {
+                res.send({ reserva: reservas[0] });
+            } else {
+                res.send({ reserva: null });
+            }
+        });
+});
 

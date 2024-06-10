@@ -131,7 +131,6 @@ function mostrarHabitaciones(habitaciones) {
     });
 }
 
-
 // Función para mostrar errores
 let errorTimeout; // Variable para almacenar el timeout del mensaje de error
 function mostrarError(mensaje) {
@@ -223,17 +222,33 @@ searchForm.addEventListener('submit', function (event) {
 });
 
 // Código para pagar reserva y mostrar modal
-const pagarBtn = document.getElementById('pagarReserva');
 const modal = document.getElementById('modal');
 const closeBtn = document.querySelector('.close-btn');
 const modalDate = document.getElementById('modal-date');
+const modalHabitaciones = document.getElementById('modal-habitaciones');
 const modalTotal = document.getElementById('modal-total');
 const confirmarPagoBtn = document.getElementById('confirmarPagoBtn');
 
-pagarBtn.addEventListener('click', function() {
+pagarReservaBtn.addEventListener('click', function() {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
+    const days = calcularDias(checkin, checkout); // Calcular los días usando la función calcularDias
     modalDate.textContent = `Fecha de Reserva: ${checkin} - ${checkout}`;
+
+    // Limpiar el contenido anterior del modal
+    modalHabitaciones.innerHTML = '';
+
+    // Agregar detalles de cada habitación
+    resumenDiv.querySelectorAll('.resumen-item').forEach(item => {
+        const nombreHabitacion = item.querySelector('h4').textContent;
+        const precioTotalHabitacion = parseFloat(item.querySelector('p:nth-of-type(4)').textContent.replace('Precio Total: ', '').replace(' COP', ''));
+        const precioHabitacion = precioTotalHabitacion / days; // Precio por día
+
+        const habitacionInfo = document.createElement('p');
+        habitacionInfo.textContent = `- ${nombreHabitacion} (${precioHabitacion.toFixed(2)} COP) por ${days} días: ${precioTotalHabitacion.toFixed(2)} COP`;
+        modalHabitaciones.appendChild(habitacionInfo);
+    });
+
     modalTotal.textContent = `Total a Pagar: ${totalPrecio.toFixed(2)} COP`;
     modal.style.display = 'block';
 });
@@ -251,8 +266,8 @@ window.addEventListener('click', function(event) {
 confirmarPagoBtn.addEventListener('click', function() {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
-    const numHabitaciones = resumenDiv.querySelectorAll('.resumen-item').length; // Contar las habitaciones reservadas
-    const usuarioId = document.getElementById('nombreUsuario').dataset.userId; // Obtener el id del usuario (asegúrate de que esté disponible en el HTML)
+    const numHabitaciones = resumenDiv.querySelectorAll('.resumen-item').length; 
+    const usuarioId = document.getElementById('nombreUsuario').dataset.userId;
 
     const reservaData = {
         idUsuario: usuarioId,
@@ -260,7 +275,7 @@ confirmarPagoBtn.addEventListener('click', function() {
         fechaFin: checkout,
         numeroHabitaciones: numHabitaciones,
         valorPago: totalPrecio,
-        habitaciones: [] // Array para almacenar los IDs de las habitaciones seleccionadas
+        habitaciones: [] 
     };
 
     resumenDiv.querySelectorAll('.resumen-item').forEach(item => {
@@ -280,7 +295,8 @@ confirmarPagoBtn.addEventListener('click', function() {
         if (data.success) {
             alert('Pago Confirmado');
             modal.style.display = 'none';
-            // Aquí podrías redirigir al usuario a otra página o actualizar la interfaz
+            // Redirigir a la página de detalles de pago
+            window.location.href = 'detallesPagos.html';
         } else {
             alert('Error al confirmar el pago');
         }
@@ -289,6 +305,9 @@ confirmarPagoBtn.addEventListener('click', function() {
         console.error('Error al confirmar el pago:', error);
     });
 });
+
+
+
 
 
 
