@@ -179,11 +179,15 @@ app.post('/confirmarPago', async (req, res) => {
         );
 
         // Actualizar el estado de las habitaciones en la tabla Habitaciones
-        for (const habitacion of habitaciones) {
-            await connection.query(
-                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE descripcion = ?',
-                ['OCUPADA', habitacion]
+        for (const idHabitacion of habitaciones) {
+            const [updateResult] = await connection.query(
+                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE idHabitacion = ?',
+                ['OCUPADA', idHabitacion]
             );
+
+            if (updateResult.affectedRows === 0) {
+                throw new Error(`La actualización falló para idHabitacion: ${idHabitacion}`);
+            }
         }
 
         await connection.commit();
@@ -197,6 +201,8 @@ app.post('/confirmarPago', async (req, res) => {
     }
 });
 
+
+
 // Actualizar el estado de la habitación cuando la reserva haya pasado
 setInterval(async () => {
     try {
@@ -208,8 +214,8 @@ setInterval(async () => {
 
         for (const reserva of habitaciones) {
             await pool.query(
-                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE descripcion = ?',
-                ['DISPONIBLE', reserva.descripcion]
+                'UPDATE railway.Habitaciones SET estadoHabitacion = ? WHERE idHabitacion = ?',
+                ['DISPONIBLE', reserva.idHabitacion]
             );
         }
     } catch (error) {
@@ -273,7 +279,6 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-module.exports = pool;
 
 
 

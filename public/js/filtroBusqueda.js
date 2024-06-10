@@ -79,7 +79,7 @@ function mostrarHabitaciones(habitaciones) {
                 <h3>${habitacion.descripcion}</h3>
                 <p>Max ${habitacion.maxPersonas} personas • NO SE PERMITE FUMAR</p>
                 <p>Desde ${habitacion.precio} COP/ Noche</p>
-                <button class="addReservaBtn">AÑADIR A RESERVA</button>
+                <button class="addReservaBtn" data-id-habitacion="${habitacion.idHabitacion}">AÑADIR A RESERVA</button>
             </div>
         `;
         roomsContainer.appendChild(roomCard);
@@ -100,6 +100,7 @@ function mostrarHabitaciones(habitaciones) {
             const roomPrice = parseFloat(roomInfo.querySelectorAll('p')[1].textContent.match(/(\d+)/)[0]); // Extraer el precio numérico
             const numDias = calcularDias(checkin, checkout);
             const totalHabitacion = roomPrice * numDias;
+            const idHabitacion = this.getAttribute('data-id-habitacion'); // Obtener el idHabitacion
 
             totalPrecio += totalHabitacion;
 
@@ -110,6 +111,7 @@ function mostrarHabitaciones(habitaciones) {
                 <p>Fecha de Entrada: ${checkin}</p>
                 <p>Fecha de Salida: ${checkout}</p>
                 <p>Precio Total: ${totalHabitacion.toFixed(2)} COP</p>
+                <p class="id-habitacion" style="display:none;">${idHabitacion}</p>
             `;
             resumenDiv.appendChild(resumenItem);
 
@@ -128,6 +130,7 @@ function mostrarHabitaciones(habitaciones) {
         });
     });
 }
+
 
 // Función para mostrar errores
 let errorTimeout; // Variable para almacenar el timeout del mensaje de error
@@ -257,12 +260,12 @@ confirmarPagoBtn.addEventListener('click', function() {
         fechaFin: checkout,
         numeroHabitaciones: numHabitaciones,
         valorPago: totalPrecio,
-        habitaciones: [] // Array para almacenar las habitaciones seleccionadas
+        habitaciones: [] // Array para almacenar los IDs de las habitaciones seleccionadas
     };
 
     resumenDiv.querySelectorAll('.resumen-item').forEach(item => {
-        const roomName = item.querySelector('h4').textContent;
-        reservaData.habitaciones.push(roomName);
+        const idHabitacion = item.querySelector('.id-habitacion').textContent;
+        reservaData.habitaciones.push(idHabitacion);
     });
 
     fetch('http://127.0.0.1:3000/confirmarPago', {
