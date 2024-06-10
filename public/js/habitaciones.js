@@ -11,6 +11,18 @@ function handlePriceEdit(cell) {
     });
 }
 
+function redirectUser() {
+    // Obtener el ID del usuario de la sesión
+    const userId = req.session.usuario ? req.session.usuario.id : null;
+
+    // Verificar el ID del usuario y redirigirlo en consecuencia
+    if (userId === 0) {
+        window.location.href = '/iniAdmin.html';
+    } else {
+        window.location.href = '/sesionIniciada.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const habitacionesBody = document.getElementById('habitacionesBody');
 

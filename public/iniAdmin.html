@@ -15,12 +15,12 @@
             <div class="navlinks">
                 <ul id="menulist">
                     <li class="image-square"></li>
-                    <li> <a href="#usuario">ADMIN</a> </li>
+                    <li class="nombreUsuario" id="nombreUsuario"></li>
                     <li><a href="filtroBusqueda.html">Reservas</a></li>
                     <li> <a href="pagos.html">Pagos</a> </li>
                     <li><a href="verReservas.html">Ver reservas</a></li>
                     <li><a href="habitaciones.html">Habitaciones</a></li>
-                    <li><button class="volverBtn" onclick="window.location.href='index.html';">SALIR</button></li>
+                    <li><button class="volverBtn" onclick="logout()">SALIR</button></li>
                 </ul>
                 <span class="fa fa-bars" onclick="menutoggle()"></span>
             </div>
@@ -37,6 +37,24 @@
         </div>
     </div>
     <script>
+         function logout() {
+        fetch('/logout', {
+            method: 'POST',
+            credentials: 'same-origin' 
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = 'registroSesion.html';
+            } else {
+                console.error('Error al cerrar la sesión');
+            }
+        })
+        
+        .catch(error => {
+            console.error('Error al cerrar la sesión:', error);
+        });
+    }
+
         var menulist = document.getElementById('menulist');
         menulist.style.maxHeight = "0px";
 
@@ -47,6 +65,30 @@
                 menulist.style.maxHeight = "0px";
             }
         }
+
+        fetch('http://127.0.0.1:3000/user-data')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.nombreCompleto) {
+            document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
+        } else {
+            document.getElementById('nombreUsuario').textContent = 'Invitado';
+        }
+
+        var nombreCompleto = data.nombreCompleto;
+        document.getElementById("nombreUsuario").textContent = nombreCompleto;
+        console.log('Nombre completo del usuario:', nombreCompleto);
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+        document.getElementById('nombreUsuario').textContent = 'Invitado';
+    });
+    
     </script>
 </body>
 

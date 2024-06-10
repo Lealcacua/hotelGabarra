@@ -1,5 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+#detallesReserva {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reserva {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.reserva p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.reserva p strong {
+    color: #555;
+}
+
 * {
     margin: 0;
     padding: 0;

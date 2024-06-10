@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="header-right">
-            <button class="volverBtn" onclick="window.location.href='iniAdmin.html';">VOLVER</button>
+            <button class="volverBtn" onclick="redirectUser()">VOLVER</button>
         </div>
     </div>
 
@@ -88,6 +88,17 @@
             })
             .catch(error => console.error('Error al obtener pagos:', error));
 
+            function redirectUser() {
+    // Obtener el ID del usuario de la sesión
+    const userId = req.session.usuario ? req.session.usuario.id : null;
+
+    // Verificar el ID del usuario y redirigirlo en consecuencia
+    if (userId === 0) {
+        window.location.href = '/iniAdmin.html';
+    } else {
+        window.location.href = '/sesionIniciada.html';
+    }
+}
     </script>
 </body>
 

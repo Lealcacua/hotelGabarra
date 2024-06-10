@@ -156,25 +156,45 @@ function mostrarError(mensaje) {
     }, 3000);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    cargarHabitaciones();
+function logout() {
+    fetch('/logout', {
+        method: 'POST',
+        credentials: 'same-origin' 
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = 'registroSesion.html';
+        } else {
+            console.error('Error al cerrar la sesión');
+        }
+    })
+    .catch(error => {
+        console.error('Error al cerrar la sesión:', error);
+    });
+}
 
-    // Código para obtener datos del usuario
+document.addEventListener('DOMContentLoaded', () => {
     fetch('http://127.0.0.1:3000/user-data')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.nombreCompleto) {
-                document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
-                document.getElementById('nombreUsuario').dataset.userId = data.id; // Asignar el ID de usuario al nuevo atributo
+            usuarioId = data.id; 
+            const nombreUsuarioElement = document.getElementById('nombreUsuario');
+            if (data.nombreCompleto && nombreUsuarioElement) {
+                nombreUsuarioElement.textContent = data.nombreCompleto;
             } else {
-                document.getElementById('nombreUsuario').textContent = 'Invitado';
+                console.error('No se pudo encontrar el elemento o no hay datos de usuario disponibles');
             }
         })
         .catch(error => {
             console.error('Error al obtener datos del usuario:', error);
-            document.getElementById('nombreUsuario').textContent = 'Invitado';
         });
 });
+
 
 // Código para manejar la búsqueda de habitaciones
 const searchForm = document.getElementById('search-form');
@@ -267,7 +287,6 @@ confirmarPagoBtn.addEventListener('click', function() {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
     const numHabitaciones = resumenDiv.querySelectorAll('.resumen-item').length; 
-    const usuarioId = document.getElementById('nombreUsuario').dataset.userId;
 
     const reservaData = {
         idUsuario: usuarioId,
@@ -307,6 +326,34 @@ confirmarPagoBtn.addEventListener('click', function() {
 });
 
 
+// REDIRIGIR BOTON VOLVER
+
+function redirectUser() {
+    fetch('http://127.0.0.1:3000/user-data')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.id !== undefined) {
+            const userId = data.id;
+
+            if (userId === 0) {
+                window.location.href = '/iniAdmin.html';
+            } else {
+                window.location.href = '/sesionIniciada.html';
+            }
+        } else {
+            console.error('No se pudo obtener el ID del usuario');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+    });
+
+}
 
 
 

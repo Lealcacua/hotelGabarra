@@ -7,6 +7,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 require('dotenv').config();
 const path = require('path');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -61,23 +62,26 @@ app.post('/register', async (req, res) => {
     }
 });
 
+
+
+
 app.post('/login', async (req, res) => {
     const { correo, contrasena } = req.body;
-    
+
     if (!correo || !contrasena) {
-        return res.status(400).send('Correo y contraseña son requeridos');
+        return res.redirect('/?error=missing_credentials');
     }
 
     try {
         const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE Correo = ?', [correo]);
-        
+
         if (rows.length === 0) {
             return res.redirect('/?error=auth');
         }
 
         const usuario = rows[0];
         const contrasenaValida = await verificarContrasena(contrasena, usuario.Contrasena);
-        
+
         if (contrasenaValida) {
             req.session.usuario = {
                 id: usuario.ID,
@@ -87,33 +91,44 @@ app.post('/login', async (req, res) => {
                 correo: usuario.Correo
             };
 
-            // Obtener las reservas del usuario
-            const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [usuario.ID]);
-            console.log('Reservas del usuario:', reservas);
+            // Verificar si el ID del usuario es 0
+            if (usuario.ID === 0) {
 
-            // Obtener los pagos del usuario
-            const [pagos] = await pool.query(`
-                SELECT Pagos.* FROM railway.Pagos
-                JOIN railway.verReservas ON Pagos.idReservas = verReservas.idReservas
-                WHERE verReservas.idUsuario = ?
-            `, [usuario.ID]);
-            console.log('Pagos del usuario:', pagos);
+                const [reservas] = await pool.query('SELECT * FROM railway.verReservas');
+                const [pagos] = await pool.query('SELECT * FROM railway.Pagos');
 
-            // Agregar reservas y pagos a la sesión
-            req.session.usuario.reservas = reservas;
-            req.session.usuario.pagos = pagos;
+                req.session.usuario.reservas = reservas;
+                req.session.usuario.pagos = pagos;
+                
+                return res.redirect('/iniAdmin.html');
+                BREAK;
+            } else {
+                // Obtener las reservas del usuario
+                const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [usuario.ID]);
 
-            console.log('Datos del usuario:', req.session.usuario); // Imprimir datos del usuario
+                // Obtener los pagos del usuario
+                const [pagos] = await pool.query(`
+                    SELECT Pagos.* FROM railway.Pagos
+                    JOIN railway.verReservas ON Pagos.idReservas = verReservas.idReservas
+                    WHERE verReservas.idUsuario = ?
+                `, [usuario.ID]);
 
-            res.redirect(`/sesionIniciada.html`);
+                // Agregar reservas y pagos a la sesión
+                req.session.usuario.reservas = reservas;
+                req.session.usuario.pagos = pagos;
+
+                return res.redirect(`/sesionIniciada.html`);
+            }
         } else {
-            res.redirect('/?error=auth');
+            return res.redirect('/?error=auth');
         }
     } catch (err) {
         console.error('Error interno del servidor:', err);
-        res.status(500).send('Error interno del servidor');
+        return res.redirect('/?error=server');
     }
 });
+
+
 
 //ver reservas 
 app.get('/reservas', async (req, res) => {
@@ -243,11 +258,75 @@ async function verificarContrasena(contrasena, hashedPassword) {
 
 app.get('/user-data', (req, res) => {
     if (req.session.usuario) {
-        res.json(req.session.usuario);
+        const userData = {
+            id: req.session.usuario.id,
+            // Otros campos de datos del usuario aquí
+            nombreCompleto: req.session.usuario.nombreCompleto,
+            // Incluye otros campos que desees
+        };
+        res.json(userData); // Devuelve el objeto userData con el ID y otros datos del usuario
+    } else {
+        res.status(401).send('No autorizado'); // Si no hay usuario autenticado, devuelve un mensaje de "No autorizado"
+    }
+});
+// reservas de cada usuario por separado
+app.get('/reservas-usuario', async (req, res) => {
+    if (req.session.usuario) {
+        const userId = req.session.usuario.id;
+
+        try {
+            const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [userId]);
+            res.json(reservas);
+        } catch (error) {
+            console.error('Error al obtener las reservas del usuario:', error);
+            res.status(500).json({ error: 'No se pudieron obtener las reservas' });
+        }
     } else {
         res.status(401).send('No autorizado');
     }
 });
+
+
+
+
+app.delete('/eliminar-reserva/:id', async (req, res) => {
+    const reservaId = req.params.id;
+    let connection; // Declarar la variable connection aquí
+
+    try {
+        connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        // Eliminar registros relacionados en la tabla Pagos
+        console.log(`Eliminando pagos para la reserva con ID: ${reservaId}`);
+        await connection.query('DELETE FROM Pagos WHERE idReservas = ?', [reservaId]);
+
+        // Eliminar reserva de la tabla verReservas
+        console.log(`Eliminando reserva con ID: ${reservaId}`);
+        await connection.query('DELETE FROM verReservas WHERE idReservas = ?', [reservaId]);
+
+        await connection.commit();
+
+        console.log(`Reserva con ID ${reservaId} eliminada correctamente`);
+        res.json({ message: 'Reserva eliminada correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar la reserva:', error);
+        if (connection) {
+            await connection.rollback();
+        }
+        res.status(500).json({ error: 'No se pudo eliminar la reserva' });
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+});
+
+
+
+
+
+
 
 // Actualizar el endpoint /habitaciones para aceptar filtros
 app.get('/habitaciones', async (req, res) => {
