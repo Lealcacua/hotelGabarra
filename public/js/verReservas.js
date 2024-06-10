@@ -27,10 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 row.innerHTML = `
                     <td>${reserva.idReservas}</td>
                     <td>${reserva.idUsuario}</td>
-                    <td>${reserva.Habitaciones}</td>
+                    <td>${reserva.numeroHabitaciones}</td>
                     <td>${reserva.fechaInicio}</td>
                     <td>${reserva.fechaFin}</td>
-                    <td>${reserva.estadoPago}</td>
                 `;
                 reservasBody.appendChild(row);
             });

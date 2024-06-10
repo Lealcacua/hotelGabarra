@@ -20,7 +20,7 @@ body {
     width: 400px;
     height: 500px;
     background: #000;
-    box-shadow: 0 0 50px rgb(234, 238, 5);
+    box-shadow: 0 0 50px yellow;
     border-radius: 20px;
     padding: 40px;
     overflow: hidden;
@@ -63,7 +63,7 @@ body {
 
 h2 {
     font-size: 30px;
-    color: rgb(246, 247, 223);
+    color: #efb810;
     text-align: center;
 }
 
@@ -89,7 +89,7 @@ h2 {
     height: 40px;
     font-size: 16px;
     color: rgb(246, 247, 223);
-    padding: 0 5px;
+    padding: 0 50px;
     background: transparent;
     border: none;
     outline: none;
@@ -98,7 +98,7 @@ h2 {
 
 .input-group input:focus~label,
 .input-group input:valid~label {
-    top: -5px;
+    top: -2px;
 }
 
 .remember {
@@ -111,15 +111,15 @@ h2 {
 }
 
 .remember label input {
-    accent-color: rgb(234, 238, 5);
+    accent-color: #efb810;
 }
 
 button {
     position: relative;
     width: 100%;
     height: 40px;
-    background: rgb(234, 238, 5);
-    box-shadow: 0 0 10px rgb(234, 238, 5);
+    background: #efb810;
+    box-shadow: 0 0 10px yellow;
     font-size: 16px;
     color: #000;
     font-weight: 500;
@@ -140,7 +140,7 @@ button {
 }
 
 .signUp-link p a {
-    color: rgb(234, 238, 5);
+    color: #efb810;
     text-decoration: none;
     font-weight: 500;
 }

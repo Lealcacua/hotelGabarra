@@ -17,13 +17,15 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: #000;
-    color: rgb(234, 238, 5);
+    color: #efb810;
     padding: 20px;
 }
 
 .header-left {
     display: flex;
     align-items: center;
+    font-size: 25px;
+    color: #efb810;
 }
 
 .verified-icon {
@@ -33,8 +35,6 @@ body {
 }
 
 .username {
-    font-size: 20px;
-    color: white;
     margin-right: 20px;
 }
 
@@ -53,7 +53,7 @@ body {
 
 .stars span {
     font-size: 20px;
-    color: gold;
+    color: #efb810;
 }
 
 .header-right {
@@ -64,8 +64,8 @@ body {
     position: relative;
     width: 100%;
     height: 40px;
-    background: rgb(234, 238, 5);
-    box-shadow: 0 0 10px rgb(234, 238, 5);
+    background: #efb810;
+    box-shadow: 0 0 10px yellow;
     padding: 10px 20px;
     border: none;
     border-radius: 30px;

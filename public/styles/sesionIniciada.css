@@ -10,13 +10,11 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 .nombreUsuario{
-    color: #ddd;
+    color: #efb810;
 }
-span{
-    color: #ddd;
-}
+
 p{
-    color: #ddd;
+    color: white;
 }
 h1, h2 {
     font-family: sans-serif;
@@ -48,7 +46,7 @@ li {
 header {
     padding: 20px 20px;
     background: #000;
-    box-shadow: 0 0 10px rgb(234, 238, 5);
+    box-shadow: 0 0 10px #efb810;
     display: flex;
     align-items: center;
     position: fixed;
@@ -79,7 +77,7 @@ header ul li a {
 }
 
 header ul li a:hover {
-    color: #FFD700;
+    color: #efb810;
 }
 
 header i {
@@ -122,7 +120,7 @@ header .navlinks span {
 }
 
 .slider {
-    background-image: url('../images/sencilla1.jpg');
+    background-image: url('../images/frente.jpeg');
     background-size: cover;
     background-position: center;
     height: calc(100vh - 40px);
@@ -131,31 +129,32 @@ header .navlinks span {
     margin: 0 auto;
     animation: animate 10s infinite;
     position: relative;
+   
 }
 
 @keyframes animate {
     20% {
-        background-image: url('../images/sencilla1.jpg');
+        background-image: url('../images/frente.jpeg');
         background-size: cover;
     }
 
     40% {
-        background-image: url('../images/sencilla2.jpg');
+        background-image: url('../images/pasillo.jpeg');
         background-size: cover;
     }
 
     60% {
-        background-image: url('../images/sencilla3.jpg');
+        background-image: url('../images/piscina.jpeg');
         background-size: cover;
     }
 
     80% {
-        background-image: url('../images/sencilla4.jpg');
+        background-image: url('../images/buffet.jpeg');
         background-size: cover;
     }
 
     100% {
-        background-image: url('../images/sencilla4.jpg');
+        background-image: url('../images/sala.jpeg');
         background-size: cover;
     }
 }
@@ -188,8 +187,8 @@ header .navlinks span {
     position: relative;
     width: 100%;
     height: 40px;
-    background: rgb(234, 238, 5);
-    box-shadow: 0 0 10px rgb(234, 238, 5);
+    background: #efb810;
+    box-shadow: 0 0 10px yellow;
     padding: 10px 20px;
     border: none;
     border-radius: 30px;
