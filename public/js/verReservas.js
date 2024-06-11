@@ -54,8 +54,7 @@ function eliminarReserva(id) {
         })
         .then(data => {
             alert('Reserva eliminada exitosamente');
-            // Puedes recargar la página o actualizar la lista de reservas después de eliminar una
-            // reserva con éxito si lo deseas.
+            location.reload();
         })
         .catch(error => {
             console.error('Error al eliminar la reserva:', error);

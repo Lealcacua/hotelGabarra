@@ -62,8 +62,8 @@ const updatePrice = async (idHabitacion, newPrice) => {
 
         // Actualiza el precio en la tabla
         const priceCell = document.querySelector(`#habitacionesBody tr td:first-child[data-id="${idHabitacion}"]`);
-        priceCell.textContent = newPrice;
-
+        location.reload();
+        
         alert('Precio actualizado correctamente');
     } catch (error) {
         console.error('Error al actualizar el precio:', error);
