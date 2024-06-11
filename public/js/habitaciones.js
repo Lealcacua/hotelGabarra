@@ -1,15 +1,17 @@
 function handlePriceEdit(cell) {
-    cell.addEventListener('dblclick', function () {
+    const editBtn = cell.parentElement.querySelector('.edit-price-btn');
+    
+    editBtn.addEventListener('click', function () {
         const idHabitacion = cell.parentElement.querySelector('td:first-child').textContent;
         const currentPrice = cell.textContent;
 
         const newPrice = prompt('Introduce el nuevo precio:', currentPrice);
         if (newPrice !== null && newPrice !== currentPrice) {
-            cell.textContent = newPrice; 
             updatePrice(idHabitacion, newPrice);
         }
     });
 }
+
 
 function redirectUser() {
     // Obtener el ID del usuario de la sesión
@@ -23,6 +25,7 @@ function redirectUser() {
     }
 }
 
+// habitaciones.js
 document.addEventListener('DOMContentLoaded', function () {
     const habitacionesBody = document.getElementById('habitacionesBody');
 
@@ -41,21 +44,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${habitacion.imagenURL}</td>
                     <td>${habitacion.descripcion}</td>
                     <td>${habitacion.maxPersonas}</td>
-                    <td>${habitacion.precio}</td>
+                    <td class="price-cell">${habitacion.precio}</td>
                     <td>${habitacion.estadoHabitacion}</td>
+                    <td><button class="edit-price-btn">Editar</button></td>
                 `;
                 habitacionesBody.appendChild(row);
 
-                const priceCell = row.querySelector('td:last-child');
+                const priceCell = row.querySelector('.price-cell');
                 handlePriceEdit(priceCell);
             });
         })
         .catch(error => console.error('Error fetching habitaciones:', error));
 });
 
-async function updatePrice(idHabitacion, newPrice) {
+const updatePrice = async (idHabitacion, newPrice) => {
     try {
-        const response = await fetch(`http://localhost:3000/habitaciones/${idHabitacion}`, {
+        const response = await fetch(`http://localhost:3000/precio/${idHabitacion}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -67,9 +71,14 @@ async function updatePrice(idHabitacion, newPrice) {
             throw new Error('Error al actualizar el precio');
         }
 
+        // Actualiza el precio en la tabla
+        const priceCell = document.querySelector(`#habitacionesBody tr td:first-child[data-id="${idHabitacion}"]`);
+        priceCell.textContent = newPrice;
+
         alert('Precio actualizado correctamente');
     } catch (error) {
         console.error('Error al actualizar el precio:', error);
         alert('Error al actualizar el precio. Por favor, inténtalo de nuevo.');
     }
-}
+};
+

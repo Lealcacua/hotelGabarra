@@ -275,7 +275,7 @@ app.get('/reservas-usuario', async (req, res) => {
         const userId = req.session.usuario.id;
 
         try {
-            const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [userId]);
+            const [reservas] = await pool.query('SELECT v.*, p.valorPago, p.fechaPago FROM railway.verReservas v LEFT JOIN railway.Pagos p ON v.idReservas = p.idReservas WHERE v.idUsuario = ?', [userId]);
             res.json(reservas);
         } catch (error) {
             console.error('Error al obtener las reservas del usuario:', error);
@@ -285,6 +285,8 @@ app.get('/reservas-usuario', async (req, res) => {
         res.status(401).send('No autorizado');
     }
 });
+
+
 
 
 
@@ -322,6 +324,26 @@ app.delete('/eliminar-reserva/:id', async (req, res) => {
     }
 });
 
+app.put('/precio/:idHabitacion', async (req, res) => {
+    try {
+        const { idHabitacion } = req.params;
+        const { precio } = req.body;
+
+        // Consulta SQL para actualizar el precio de la habitación
+        const updateQuery = 'UPDATE railway.Habitaciones SET precio = ? WHERE idHabitacion = ?';
+        const values = [precio, idHabitacion];
+
+        // Ejecutar la consulta
+        await pool.query(updateQuery, values);
+
+        // Enviar una respuesta de éxito
+        res.status(200).json({ success: true, message: 'Precio de la habitación actualizado correctamente' });
+    } catch (error) {
+        // Manejar errores
+        console.error('Error al actualizar el precio de la habitación:', error);
+        res.status(500).json({ success: false, error: 'Error al actualizar el precio de la habitación' });
+    }
+});
 
 
 

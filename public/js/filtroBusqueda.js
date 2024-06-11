@@ -85,7 +85,8 @@ function mostrarHabitaciones(habitaciones) {
         roomsContainer.appendChild(roomCard);
 
         // Añadir evento de click al nuevo botón
-        roomCard.querySelector('.addReservaBtn').addEventListener('click', function () {
+        const addReservaBtn = roomCard.querySelector('.addReservaBtn');
+        addReservaBtn.addEventListener('click', function () {
             const checkin = checkinInput.value;
             const checkout = checkoutInput.value;
 
@@ -112,23 +113,51 @@ function mostrarHabitaciones(habitaciones) {
                 <p>Fecha de Salida: ${checkout}</p>
                 <p>Precio Total: ${totalHabitacion.toFixed(2)} COP</p>
                 <p class="id-habitacion" style="display:none;">${idHabitacion}</p>
+                <button class="remove-btn">X</button> <!-- Botón "X" añadido -->
             `;
+
+            resumenItem.querySelector('.remove-btn').addEventListener('click', function () {
+                totalPrecio -= totalHabitacion;
+                resumenItem.remove();
+                actualizarTotal();
+
+                // Habilitar el botón de añadir habitación nuevamente
+                const addBtn = document.querySelector(`.addReservaBtn[data-id-habitacion="${idHabitacion}"]`);
+                if (addBtn) {
+                    addBtn.disabled = false;
+                    addBtn.classList.remove('selected');
+                }
+            });
+
             resumenDiv.appendChild(resumenItem);
 
-            const totalDiv = document.getElementById('totalPrecio');
-            if (!totalDiv) {
-                const nuevoTotalDiv = document.createElement('div');
-                nuevoTotalDiv.id = 'totalPrecio';
-                nuevoTotalDiv.classList.add('resumen-item');
-                nuevoTotalDiv.innerHTML = `<h3>Total a Pagar:</h3><p>${totalPrecio.toFixed(2)} COP</p>`;
-                resumenDiv.appendChild(nuevoTotalDiv);
-            } else {
-                totalDiv.innerHTML = `<h3>Total a Pagar:</h3><p>${totalPrecio.toFixed(2)} COP</p>`;
-            }
+            // Deshabilitar el botón de añadir habitación
+            this.disabled = true;
+            this.classList.add('selected');
 
-            pagarReservaBtn.style.display = 'block';
+            actualizarTotal();
         });
     });
+}
+
+function actualizarTotal() {
+    let totalDiv = document.getElementById('totalPrecio');
+    if (!totalDiv) {
+        totalDiv = document.createElement('div');
+        totalDiv.id = 'totalPrecio';
+        totalDiv.classList.add('resumen-item');
+        resumenDiv.appendChild(totalDiv);
+    }
+    
+    if (totalPrecio > 0) {
+        totalDiv.innerHTML = `<h3>Total a Pagar:</h3><p>${totalPrecio.toFixed(2)} COP</p>`;
+        pagarReservaBtn.style.display = 'block';
+    } else {
+        totalDiv.remove();
+        pagarReservaBtn.style.display = 'none';
+    }
+
+    resumenDiv.appendChild(totalDiv);
 }
 
 // Función para mostrar errores
@@ -195,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-
 // Código para manejar la búsqueda de habitaciones
 const searchForm = document.getElementById('search-form');
 searchForm.addEventListener('submit', function (event) {
@@ -225,18 +253,19 @@ searchForm.addEventListener('submit', function (event) {
             case 5:
             case 6:
                 maxPersonasFiltro = 6;
-                descripcionesFiltro = ["ESTANDAR TRIPLE"];
+                descripcionesFiltro = ["SUITE"];
+                break;
+            default:
                 break;
         }
     }
-    let filtros = {
-        maxPersonas: maxPersonasFiltro,
-        estadoHabitacion: 'DISPONIBLE'
-    };
 
-    if (descripcionesFiltro.length > 0) {
-        filtros.descripcion = descripcionesFiltro.join(',');
-    }
+    const filtros = {
+        fechaInicio: checkin,
+        fechaFin: checkout,
+        maxPersonas: maxPersonasFiltro,
+        descripciones: descripcionesFiltro.join(',')
+    };
 
     cargarHabitaciones(filtros);
 });
@@ -249,7 +278,7 @@ const modalHabitaciones = document.getElementById('modal-habitaciones');
 const modalTotal = document.getElementById('modal-total');
 const confirmarPagoBtn = document.getElementById('confirmarPagoBtn');
 
-pagarReservaBtn.addEventListener('click', function() {
+pagarReservaBtn.addEventListener('click', function () {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
     const days = calcularDias(checkin, checkout); // Calcular los días usando la función calcularDias
@@ -260,33 +289,41 @@ pagarReservaBtn.addEventListener('click', function() {
 
     // Agregar detalles de cada habitación
     resumenDiv.querySelectorAll('.resumen-item').forEach(item => {
-        const nombreHabitacion = item.querySelector('h4').textContent;
-        const precioTotalHabitacion = parseFloat(item.querySelector('p:nth-of-type(4)').textContent.replace('Precio Total: ', '').replace(' COP', ''));
-        const precioHabitacion = precioTotalHabitacion / days; // Precio por día
+        const nombreHabitacionElement = item.querySelector('h4');
+        const precioTotalHabitacionElement = item.querySelector('p:nth-of-type(4)');
 
-        const habitacionInfo = document.createElement('p');
-        habitacionInfo.textContent = `- ${nombreHabitacion} (${precioHabitacion.toFixed(2)} COP) por ${days} días: ${precioTotalHabitacion.toFixed(2)} COP`;
-        modalHabitaciones.appendChild(habitacionInfo);
+        if (nombreHabitacionElement && precioTotalHabitacionElement) {
+            const nombreHabitacion = nombreHabitacionElement.textContent;
+            const precioTotalHabitacion = parseFloat(precioTotalHabitacionElement.textContent.replace('Precio Total: ', '').replace(' COP', ''));
+            const precioHabitacion = precioTotalHabitacion / days; // Precio por día
+
+            const habitacionInfo = document.createElement('p');
+            habitacionInfo.textContent = `- ${nombreHabitacion} (${precioHabitacion.toFixed(2)} COP) por ${days} días: ${precioTotalHabitacion.toFixed(2)} COP`;
+            modalHabitaciones.appendChild(habitacionInfo);
+        } else {
+            console.error('No se encontraron los elementos requeridos dentro de .resumen-item');
+        }
     });
 
     modalTotal.textContent = `Total a Pagar: ${totalPrecio.toFixed(2)} COP`;
     modal.style.display = 'block';
 });
 
-closeBtn.addEventListener('click', function() {
+
+closeBtn.addEventListener('click', function () {
     modal.style.display = 'none';
 });
 
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     if (event.target === modal) {
         modal.style.display = 'none';
     }
 });
 
-confirmarPagoBtn.addEventListener('click', function() {
+confirmarPagoBtn.addEventListener('click', function () {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
-    const numHabitaciones = resumenDiv.querySelectorAll('.resumen-item').length; 
+    const numHabitaciones = resumenDiv.querySelectorAll('.resumen-item').length;
 
     const reservaData = {
         idUsuario: usuarioId,
@@ -294,13 +331,24 @@ confirmarPagoBtn.addEventListener('click', function() {
         fechaFin: checkout,
         numeroHabitaciones: numHabitaciones,
         valorPago: totalPrecio,
-        habitaciones: [] 
+        habitaciones: []
     };
 
-    resumenDiv.querySelectorAll('.resumen-item').forEach(item => {
-        const idHabitacion = item.querySelector('.id-habitacion').textContent;
-        reservaData.habitaciones.push(idHabitacion);
-    });
+    // Verificar si existen elementos .resumen-item
+    const resumenItems = resumenDiv.querySelectorAll('.resumen-item');
+    if (resumenItems.length > 0) {
+        resumenItems.forEach(item => {
+            const idHabitacionElement = item.querySelector('.id-habitacion');
+            if (idHabitacionElement) {
+                const idHabitacion = idHabitacionElement.textContent;
+                reservaData.habitaciones.push(idHabitacion);
+            } else {
+                console.error('No se encontró el elemento .id-habitacion dentro de .resumen-item');
+            }
+        });
+    } else {
+        console.error('No se encontraron elementos .resumen-item');
+    }
 
     fetch('http://127.0.0.1:3000/confirmarPago', {
         method: 'POST',
@@ -309,55 +357,47 @@ confirmarPagoBtn.addEventListener('click', function() {
         },
         body: JSON.stringify(reservaData)
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Pago Confirmado');
-            modal.style.display = 'none';
-            // Redirigir a la página de detalles de pago
-            window.location.href = 'detallesPagos.html';
-        } else {
-            alert('Error al confirmar el pago');
-        }
-    })
-    .catch(error => {
-        console.error('Error al confirmar el pago:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Pago Confirmado');
+                modal.style.display = 'none';
+                // Redirigir a la página de detalles de pago
+                window.location.href = 'detallesPagos.html';
+            } else {
+                alert('Error al confirmar el pago');
+            }
+        })
+        .catch(error => {
+            console.error('Error al confirmar el pago:', error);
+        });
 });
 
 
 // REDIRIGIR BOTON VOLVER
-
 function redirectUser() {
     fetch('http://127.0.0.1:3000/user-data')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.id !== undefined) {
-            const userId = data.id;
-
-            if (userId === 0) {
-                window.location.href = '/iniAdmin.html';
-            } else {
-                window.location.href = '/sesionIniciada.html';
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        } else {
-            console.error('No se pudo obtener el ID del usuario');
-        }
-    })
-    .catch(error => {
-        console.error('Error al obtener datos del usuario:', error);
-    });
+            return response.json();
+        })
+        .then(data => {
+            if (data.id !== undefined) {
+                const userId = data.id;
+
+                if (userId === 0) {
+                    window.location.href = '/iniAdmin.html';
+                } else {
+                    window.location.href = '/sesionIniciada.html';
+                }
+            } else {
+                console.error('No se pudo obtener el ID del usuario');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener datos del usuario:', error);
+        });
 
 }
-
-
-
-
-
-
-

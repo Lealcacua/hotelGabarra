@@ -29,24 +29,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 reservas.forEach(reserva => {
                     const reservaDiv = document.createElement('div');
                     reservaDiv.classList.add('reserva');
-
+            
                     const habitacionesParagraph = document.createElement('p');
                     habitacionesParagraph.innerHTML = `<strong>Número de Habitaciones:</strong> ${reserva.numeroHabitaciones}`;
                     reservaDiv.appendChild(habitacionesParagraph);
-
+            
                     const fechaInicioParagraph = document.createElement('p');
                     fechaInicioParagraph.innerHTML = `<strong>Fecha de Inicio:</strong> ${new Date(reserva.fechaInicio).toLocaleDateString()}`;
                     reservaDiv.appendChild(fechaInicioParagraph);
-
+            
                     const fechaFinParagraph = document.createElement('p');
                     fechaFinParagraph.innerHTML = `<strong>Fecha de Fin:</strong> ${new Date(reserva.fechaFin).toLocaleDateString()}`;
                     reservaDiv.appendChild(fechaFinParagraph);
+            
+                    // Agregar fecha y monto del pago
 
+                    const fechaPagoParagraph = document.createElement('p');
+                    fechaPagoParagraph.innerHTML = `<strong>Fecha del Pago:</strong> ${new Date(reserva.fechaPago).toLocaleDateString()}`;
+                    reservaDiv.appendChild(fechaPagoParagraph);
+            
+                    const valorPagoParagraph = document.createElement('p');
+                    valorPagoParagraph.innerHTML = `<strong>Monto del Pago:</strong> ${reserva.valorPago}`;
+                    reservaDiv.appendChild(valorPagoParagraph);
+                    
+            
                     detallesReservaDiv.appendChild(reservaDiv);
                 });
             } else {
                 detallesReservaDiv.textContent = 'No hay reservas disponibles.';
             }
+            
         })
         .catch(error => {
             console.error('Error al obtener datos del usuario o reservas:', error);
