@@ -222,6 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error al obtener datos del usuario:', error);
         });
+
+    // Llamar a cargarHabitaciones para mostrar las habitaciones predeterminadas
+    cargarHabitaciones();
 });
 
 // Código para manejar la búsqueda de habitaciones
@@ -373,7 +376,6 @@ confirmarPagoBtn.addEventListener('click', function () {
         });
 });
 
-
 // REDIRIGIR BOTON VOLVER
 function redirectUser() {
     fetch('http://127.0.0.1:3000/user-data')
@@ -387,17 +389,24 @@ function redirectUser() {
             if (data.id !== undefined) {
                 const userId = data.id;
 
-                if (userId === 0) {
-                    window.location.href = '/iniAdmin.html';
-                } else {
-                    window.location.href = '/sesionIniciada.html';
-                }
+            if (userId === 0) {
+                window.location.href = '/iniAdmin.html';
             } else {
-                console.error('No se pudo obtener el ID del usuario');
+                window.location.href = '/sesionIniciada.html';
             }
-        })
-        .catch(error => {
-            console.error('Error al obtener datos del usuario:', error);
-        });
+        } else {
+            console.error('No se pudo obtener el ID del usuario');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+    });
 
 }
+
+
+
+
+
+
+

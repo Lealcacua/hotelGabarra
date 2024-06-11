@@ -78,17 +78,30 @@
         document.getElementById('nombreUsuario').textContent = 'Invitado';
     });
 
-
     function redirectUser() {
-    // Obtener el ID del usuario de la sesión
-    const userId = req.session.usuario ? req.session.usuario.id : null;
+    fetch('http://127.0.0.1:3000/user-data')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.id !== undefined) {
+            const userId = data.id;
 
-    // Verificar el ID del usuario y redirigirlo en consecuencia
-    if (userId === 0) {
-        window.location.href = '/iniAdmin.html';
-    } else {
-        window.location.href = '/sesionIniciada.html';
-    }
+            if (userId === 0) {
+                window.location.href = '/iniAdmin.html';
+            } else {
+                window.location.href = '/sesionIniciada.html';
+            }
+        } else {
+            console.error('No se pudo obtener el ID del usuario');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+    });
 }
           </script>
 
