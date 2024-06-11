@@ -11,17 +11,6 @@ function handlePriceEdit(cell) {
     });
 }
 
-function redirectUser() {
-    // Obtener el ID del usuario de la sesión
-    const userId = req.session.usuario ? req.session.usuario.id : null;
-
-    // Verificar el ID del usuario y redirigirlo en consecuencia
-    if (userId === 0) {
-        window.location.href = '/iniAdmin.html';
-    } else {
-        window.location.href = '/sesionIniciada.html';
-    }
-}
 
 document.addEventListener('DOMContentLoaded', function () {
     const habitacionesBody = document.getElementById('habitacionesBody');
@@ -73,3 +62,52 @@ async function updatePrice(idHabitacion, newPrice) {
         alert('Error al actualizar el precio. Por favor, inténtalo de nuevo.');
     }
 }
+
+function redirectUser() {
+    fetch('http://127.0.0.1:3000/user-data')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.id !== undefined) {
+            const userId = data.id;
+
+            if (userId === 0) {
+                window.location.href = '/iniAdmin.html';
+            } else {
+                window.location.href = '/sesionIniciada.html';
+            }
+        } else {
+            console.error('No se pudo obtener el ID del usuario');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener datos del usuario:', error);
+    });
+}
+
+fetch('http://127.0.0.1:3000/user-data')
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.nombreCompleto) {
+        document.getElementById('nombreUsuario').textContent = data.nombreCompleto;
+    } else {
+        document.getElementById('nombreUsuario').textContent = 'Invitado';
+    }
+
+    var nombreCompleto = data.nombreCompleto;
+    document.getElementById("nombreUsuario").textContent = nombreCompleto;
+    console.log('Nombre completo del usuario:', nombreCompleto);
+})
+.catch(error => {
+    console.error('Error al obtener datos del usuario:', error);
+    document.getElementById('nombreUsuario').textContent = 'Invitado';
+});

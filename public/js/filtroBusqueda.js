@@ -193,8 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error al obtener datos del usuario:', error);
         });
-});
 
+    // Llamar a cargarHabitaciones para mostrar las habitaciones predeterminadas
+    cargarHabitaciones();
+});
 
 // Código para manejar la búsqueda de habitaciones
 const searchForm = document.getElementById('search-form');
@@ -325,9 +327,7 @@ confirmarPagoBtn.addEventListener('click', function() {
     });
 });
 
-
 // REDIRIGIR BOTON VOLVER
-
 function redirectUser() {
     fetch('http://127.0.0.1:3000/user-data')
     .then(response => {
@@ -352,8 +352,8 @@ function redirectUser() {
     .catch(error => {
         console.error('Error al obtener datos del usuario:', error);
     });
-
 }
+
 
 
 
