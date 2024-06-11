@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     reservaDiv.appendChild(fechaFinParagraph);
             
                     // Agregar fecha y monto del pago
-
                     const fechaPagoParagraph = document.createElement('p');
                     fechaPagoParagraph.innerHTML = `<strong>Fecha del Pago:</strong> ${new Date(reserva.fechaPago).toLocaleDateString()}`;
                     reservaDiv.appendChild(fechaPagoParagraph);
@@ -52,13 +51,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     valorPagoParagraph.innerHTML = `<strong>Monto del Pago:</strong> ${reserva.valorPago}`;
                     reservaDiv.appendChild(valorPagoParagraph);
                     
-            
                     detallesReservaDiv.appendChild(reservaDiv);
                 });
             } else {
                 detallesReservaDiv.textContent = 'No hay reservas disponibles.';
             }
-            
         })
         .catch(error => {
             console.error('Error al obtener datos del usuario o reservas:', error);

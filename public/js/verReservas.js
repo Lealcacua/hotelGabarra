@@ -1,16 +1,3 @@
-function handlePriceEdit(cell) {
-    cell.addEventListener('dblclick', function () {
-        const idHabitacion = cell.parentElement.querySelector('td:first-child').textContent;
-        const currentPrice = cell.textContent;
-
-        const newPrice = prompt('Introduce el nuevo precio:', currentPrice);
-        if (newPrice !== null && newPrice !== currentPrice) {
-            cell.textContent = newPrice; 
-            updatePrice(idReservas, newPrice);
-        }
-    });
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     const reservasBody = document.getElementById('reservasBody');
 
@@ -40,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function eliminarReserva(id) {
     if (confirm(`¿Estás seguro de que quieres eliminar la reserva ${id}?`)) {
-        fetch(`http://127.0.0.1:3000/eliminar-reserva/${id}`, {
+        fetch(`http://localhost:3000/eliminar-reserva/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -108,7 +95,9 @@ fetch('http://127.0.0.1:3000/user-data')
     });
 
     function redirectUser() {
-        fetch('http://127.0.0.1:3000/user-data')
+        fetch('http://127.0.0.1:3000/user-data', {
+            credentials: 'include'
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -118,7 +107,7 @@ fetch('http://127.0.0.1:3000/user-data')
         .then(data => {
             if (data.id !== undefined) {
                 const userId = data.id;
-    
+
                 if (userId === 0) {
                     window.location.href = '/iniAdmin.html';
                 } else {
@@ -132,5 +121,3 @@ fetch('http://127.0.0.1:3000/user-data')
             console.error('Error al obtener datos del usuario:', error);
         });
     }
-
-

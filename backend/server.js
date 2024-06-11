@@ -29,6 +29,11 @@ pool.getConnection()
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+    origin: 'http://127.0.0.1:3000', 
+    credentials: true 
+}));
+
 const sessionStore = new MySQLStore({}, pool);
 app.use(session({
     key: 'session_cookie_name',
@@ -43,6 +48,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 app.post('/register', async (req, res) => {
     const { nombreCompleto, numeroCedula, numeroCelular, correo, contrasena } = req.body;
@@ -69,14 +75,14 @@ app.post('/login', async (req, res) => {
     const { correo, contrasena } = req.body;
 
     if (!correo || !contrasena) {
-        return res.redirect('/?error=missing_credentials');
+        return res.redirect('/registroSesion.html?error=missing_credentials');
     }
 
     try {
         const [rows] = await pool.query('SELECT * FROM railway.Usuario WHERE Correo = ?', [correo]);
 
         if (rows.length === 0) {
-            return res.redirect('/?error=auth');
+            return res.redirect('/registroSesion.html?error=auth');
         }
 
         const usuario = rows[0];
@@ -91,42 +97,37 @@ app.post('/login', async (req, res) => {
                 correo: usuario.Correo
             };
 
-            // Verificar si el ID del usuario es 0
             if (usuario.ID === 0) {
-
                 const [reservas] = await pool.query('SELECT * FROM railway.verReservas');
                 const [pagos] = await pool.query('SELECT * FROM railway.Pagos');
-
+                
                 req.session.usuario.reservas = reservas;
                 req.session.usuario.pagos = pagos;
                 
                 return res.redirect('/iniAdmin.html');
-                BREAK;
             } else {
-                // Obtener las reservas del usuario
                 const [reservas] = await pool.query('SELECT * FROM railway.verReservas WHERE idUsuario = ?', [usuario.ID]);
 
-                // Obtener los pagos del usuario
                 const [pagos] = await pool.query(`
                     SELECT Pagos.* FROM railway.Pagos
                     JOIN railway.verReservas ON Pagos.idReservas = verReservas.idReservas
                     WHERE verReservas.idUsuario = ?
                 `, [usuario.ID]);
 
-                // Agregar reservas y pagos a la sesión
                 req.session.usuario.reservas = reservas;
                 req.session.usuario.pagos = pagos;
 
-                return res.redirect(`/sesionIniciada.html`);
+                return res.redirect('/sesionIniciada.html');
             }
         } else {
-            return res.redirect('/?error=auth');
+            return res.redirect('/registroSesion.html?error=auth');
         }
     } catch (err) {
         console.error('Error interno del servidor:', err);
-        return res.redirect('/?error=server');
+        return res.redirect('/registroSesion.html?error=server');
     }
 });
+
 
 
 
@@ -140,6 +141,11 @@ app.get('/reservas', async (req, res) => {
         res.status(500).send('Error al obtener reservas');
     }
 });
+
+
+
+
+
 
 // pagos 
 app.get('/pagos', async (req, res) => {
@@ -169,6 +175,32 @@ app.get('/pagos', async (req, res) => {
     }
 });
 
+
+app.get('/pagosadmin', async (req, res) => {
+    try {
+        const usuario = req.session.usuario;
+
+        if (!usuario || usuario.id !== 0) {  // Asegúrate de que solo los administradores puedan acceder
+            return res.status(403).send('Acceso denegado');
+        }
+
+        const [pagos] = await pool.query(`
+            SELECT 
+                Pagos.idPago, 
+                verReservas.idReservas AS idReserva, 
+                Pagos.valorPago, 
+                Pagos.fechaPago, 
+                'Desconocido' AS estado
+            FROM Pagos
+            JOIN verReservas ON Pagos.idReservas = verReservas.idReservas
+        `);
+
+        res.json(pagos);
+    } catch (error) {
+        console.error('Error al obtener los pagos:', error);
+        res.status(500).send('Error interno del servidor');
+    }
+});
 
 
 // Confirmar pago
@@ -324,7 +356,7 @@ app.delete('/eliminar-reserva/:id', async (req, res) => {
     }
 });
 
-app.put('/precio/:idHabitacion', async (req, res) => {
+app.put('/precio/:idHabitacion',async (req, res) => {
     try {
         const { idHabitacion } = req.params;
         const { precio } = req.body;
